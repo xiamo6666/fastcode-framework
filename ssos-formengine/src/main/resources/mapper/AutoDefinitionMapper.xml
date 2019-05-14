@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssos.formengine.mapper.AutoDefinitionMapper">
+
+    <update id="autoCreateTable">
+        create table ${table}
+        ( id int not null  primary key  auto_increment,
+        ${sql}
+        )
+    </update>
+</mapper>
