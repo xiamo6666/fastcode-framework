@@ -1,6 +1,6 @@
 package com.ssos.formengine.vo;
 
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 import java.util.Map;
@@ -12,8 +12,10 @@ import java.util.Map;
  * @Date: 2019-05-15 16:41
  * @Vsersion: 1.0
  */
-@Data
+@Setter
+@Getter
+@RequiredArgsConstructor(staticName = "of")
 public class FormAllShowVO {
-    private List<FieldShowVO> fields;
-    private List<Map<String,Object>> value;
+    @NonNull private List<FieldShowVO> fields;
+    @NonNull private List<Map<String,Object>> value;
 }

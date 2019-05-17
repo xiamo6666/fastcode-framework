@@ -1,7 +1,8 @@
 package com.ssos.formengine.entity;
 
 
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -13,11 +14,13 @@ import java.time.LocalDateTime;
  * @Date: 2019-05-10 17:59
  * @Vsersion: 1.0
  */
-@Data
+@Setter
+@Getter
+@RequiredArgsConstructor(staticName = "ofAutoDefinition")
+@Accessors(chain = true)
 public class AutoDefinition implements Serializable {
-
   private Long id;
-  private String autoTableName;
+  @NonNull  private String autoTableName;
   private String mark;
   private Long parentId;
   private LocalDateTime createTime;

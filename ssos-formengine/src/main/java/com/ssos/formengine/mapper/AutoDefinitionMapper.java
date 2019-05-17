@@ -61,4 +61,6 @@ public interface AutoDefinitionMapper extends BaseMapper<AutoDefinition> {
 
 
     String isExistSon(String tableName);
+
+    void dropTable(@Param("tableName") String tableName);
 }

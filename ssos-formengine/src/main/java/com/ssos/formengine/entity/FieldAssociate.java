@@ -1,7 +1,7 @@
 package com.ssos.formengine.entity;
 
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -12,12 +12,14 @@ import java.time.LocalDateTime;
  * @Date: 2019-05-10 17:49
  * @Vsersion: 1.0
  */
-@Data
+@Setter
+@Getter
+@RequiredArgsConstructor(staticName = "of")
 public class FieldAssociate {
   
   private Long id;
-  private Long definitionTableId;
-  private Long fieldId;
+  @NonNull private Long definitionTableId;
+  @NonNull private Long fieldId;
   private LocalDateTime createTime;
 
 

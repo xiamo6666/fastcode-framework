@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  * @Date: 2019-05-13 17:31
  * @Vsersion: 1.0
  */
-public class SqlUtils {
+public final class SqlUtils {
     /**
      * 提供FieldVO字段自动生成创建表的sql
      *
@@ -22,7 +22,7 @@ public class SqlUtils {
      * @return
      * @Param isSon
      */
-    public static String sqlHelper(Supplier<? extends List<FieldVO>> var, boolean isSon) {
+    public static final String sqlHelper(Supplier<? extends List<FieldVO>> var, boolean isSon) {
         Objects.requireNonNull(var);
         List<FieldVO> fieldVOS = var.get();
         CreateSql createSql = new CreateSql();
@@ -67,7 +67,7 @@ public class SqlUtils {
      * @Date: 2019-05-16 15:55
      * @Vsersion: 1.0
      */
-    private static class CreateSql {
+    private final static class CreateSql {
 
         private void add(String sql) {
             createSql.append(sql);

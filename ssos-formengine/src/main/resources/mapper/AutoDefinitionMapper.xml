@@ -8,6 +8,9 @@
         ${sql}
         )
     </update>
+    <update id="dropTable">
+        drop table ${tableName}
+    </update>
     <select id="showMarkField" resultType="com.ssos.formengine.vo.FieldShowVO">
       select f.field_name name ,f.field_mark  mark ,ad.auto_table_name tableName from auto_definition ad
     left join field_associate fa on ad.id = fa.definition_table_id

@@ -12,6 +12,10 @@ import com.ssos.formengine.vo.FormOneShowVO;
  * @Vsersion: 1.0
  */
 public interface AutoDefinitionService {
+    /**
+     * 添加数据并动态生成子表
+     * @param definitionDTO
+     */
     void add(AutoDefinitionDTO definitionDTO);
 
     /**
