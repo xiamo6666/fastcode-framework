@@ -8,4 +8,39 @@
         ${sql}
         )
     </update>
+    <select id="showMarkField" resultType="com.ssos.formengine.vo.FieldShowVO">
+      select f.field_name name ,f.field_mark  mark ,ad.auto_table_name tableName from auto_definition ad
+    left join field_associate fa on ad.id = fa.definition_table_id
+    left join field f on fa.field_id = f.id
+    where ad.mark = #{tableMark} and ad.parent_id = 0
+
+    </select>
+    <select id="showValue" resultType="java.util.Map">
+        select * from ${tableName}
+    </select>
+    <select id="showOneValue" resultType="java.util.Map">
+        select * from ${tableName} where id = #{id}
+    </select>
+    <select id="showNameField" resultType="com.ssos.formengine.vo.FieldShowVO">
+              select f.field_name name ,f.field_mark  mark ,ad.auto_table_name tableName from auto_definition ad
+    left join field_associate fa on ad.id = fa.definition_table_id
+    left join field f on fa.field_id = f.id
+    where ad.auto_table_name = #{tableName} and ad.parent_id = 0
+
+    </select>
+    <select id="showSonValue" resultType="java.util.Map">
+        select * from ${tableName} where parent_id = #{id}
+    </select>
+    <select id="isExistSon" resultType="java.lang.String">
+        select auto_table_name from auto_definition where parent_id =
+(select id from auto_definition where mark = #{tableName}) limit 0,1
+
+    </select>
+    <select id="showSonField" resultType="com.ssos.formengine.vo.FieldShowVO">
+    select f.field_name name ,f.field_mark  mark,ad.auto_table_name tableName from auto_definition ad
+left join field_associate fa on ad.id = fa.definition_table_id
+left join field f on fa.field_id = f.id
+where ad.parent_id =(select id   from  auto_definition  where parent_id = 0 and auto_table_name = #{tableName})
+
+    </select>
 </mapper>

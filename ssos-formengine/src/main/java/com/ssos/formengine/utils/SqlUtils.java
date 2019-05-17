@@ -15,34 +15,109 @@ import java.util.function.Supplier;
  * @Vsersion: 1.0
  */
 public class SqlUtils {
-    public static String sqlHelper(Supplier<? extends List<FieldVO>> var) {
+    /**
+     * 提供FieldVO字段自动生成创建表的sql
+     *
+     * @param var
+     * @return
+     * @Param isSon
+     */
+    public static String sqlHelper(Supplier<? extends List<FieldVO>> var, boolean isSon) {
         Objects.requireNonNull(var);
         List<FieldVO> fieldVOS = var.get();
-        StringBuilder sql = new StringBuilder();
+        CreateSql createSql = new CreateSql();
         fieldVOS.forEach(p -> {
             Integer typeId = p.getFieldTypeId();
             if (typeId == 1) {
-                varField(sql, p.getFieldMark(), p.getFieldMax() + "");
+                createSql.Field(p.getFieldMark())
+                        .VARCHAR(p.getFieldMax() + "")
+                        .NOTNULL()
+                        .CHARDEFAULT()
+                        .COMMENT(p.getFieldName());
             } else if (typeId == 2) {
-                numberField(sql, p.getFieldMark());
+                createSql.Field(p.getFieldMark())
+                        .INT().NOTNULL()
+                        .INTDEFAULT()
+                        .COMMENT(p.getFieldName());
             } else if (typeId == 3) {
-                dateField(sql, p.getFieldMark());
+                createSql.Field(p.getFieldMark())
+                        .TIMESTAMP().NOTNULL()
+                        .DATEDEFAULT()
+                        .COMMENT(p.getFieldName());
             } else {
-                varField(sql, p.getFieldMark(), p.getFieldMax() + "");
+                createSql.Field(p.getFieldMark())
+                        .VARCHAR(p.getFieldMax() + "")
+                        .NOTNULL().CHARDEFAULT()
+                        .COMMENT(p.getFieldName());
             }
         });
+        //判断是否是子表，如果是子表还要添加上parent_id 字段
+        if (isSon) {
+            createSql.Field("parent_id").INT().NOTNULL().INTDEFAULT().COMMENT("父表id");
+        }
+        StringBuilder sql = createSql.createSql;
         return sql.deleteCharAt(sql.length() - 1).toString();
     }
 
-    static StringBuilder varField(StringBuilder sql, String fieldName, String size) {
-        return sql.append(fieldName + " varchar(" + size + ") not null default '',");
-    }
 
-    static StringBuilder numberField(StringBuilder sql, String fieldName) {
-        return sql.append(fieldName + " int not null default 0,");
-    }
+    /**
+     * @ClassName: CreateSql
+     * @Description: TODD
+     * @Author: xwl
+     * @Date: 2019-05-16 15:55
+     * @Vsersion: 1.0
+     */
+    private static class CreateSql {
 
-    static StringBuilder dateField(StringBuilder sql, String fieldName) {
-        return sql.append(fieldName + " timestamp not null default current_timestamp ,");
+        private void add(String sql) {
+            createSql.append(sql);
+        }
+
+        private final StringBuilder createSql = new StringBuilder();
+
+        private CreateSql VARCHAR(String size) {
+            add(" VARCHAR(" + size + ") ");
+            return this;
+        }
+
+        private CreateSql NOTNULL() {
+            add(" NOT NULL ");
+            return this;
+        }
+
+        private CreateSql COMMENT(String comment) {
+            add(" COMMENT '" + comment + "' ,");
+            return this;
+        }
+
+        private CreateSql INT() {
+            add(" INT ");
+            return this;
+        }
+
+        private CreateSql INTDEFAULT() {
+            add(" DEFAULT 0 ");
+            return this;
+        }
+
+        private CreateSql CHARDEFAULT() {
+            add(" DEFAULT '' ");
+            return this;
+        }
+
+        private CreateSql DATEDEFAULT() {
+            add(" default current_timestamp ");
+            return this;
+        }
+
+        private CreateSql Field(String field) {
+            add(" " + field + " ");
+            return this;
+        }
+
+        private CreateSql TIMESTAMP() {
+            add(" timestamp ");
+            return this;
+        }
     }
 }

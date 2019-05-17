@@ -1,8 +1,10 @@
 package com.ssos.formengine.dto;
 
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,7 +17,20 @@ import java.util.Set;
 @Data
 public class AutoDefinitionDTO {
 
-  private String autoTableName;
+    @ApiModelProperty("名称")
+    private String autoTableName;
 
-  private Set<Long>  fieldIds;
+    @ApiModelProperty("具体字段id")
+    private Set<Long> fieldIds;
+
+    private List<SonDefinition> sonDefinitions;
+
+
+    @Data
+    public static class SonDefinition {
+        @ApiModelProperty("名称")
+        private String autoTableName;
+        @ApiModelProperty("具体字段id")
+        private Set<Long> fieldIds;
+    }
 }
