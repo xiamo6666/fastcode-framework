@@ -3,6 +3,7 @@ package com.ssos.formengine.utils;
 
 import com.ssos.formengine.vo.FieldVO;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -57,6 +58,16 @@ public final class SqlUtils {
         }
         StringBuilder sql = createSql.createSql;
         return sql.deleteCharAt(sql.length() - 1).toString();
+    }
+
+    /**
+     * 转换表名创建、避免暴露表名导致sql注入攻击
+     *
+     * @param tableName
+     * @return
+     */
+    public final static String caseTableName(String tableName) {
+        return "auto_" + Objects.hash(Arrays.hashCode(tableName.getBytes()));
     }
 
 

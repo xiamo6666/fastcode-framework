@@ -13,7 +13,7 @@ public interface AutoDefinitionMapper extends BaseMapper<AutoDefinition> {
     void  autoCreateTable(@Param("table") String table,@Param("sql") String sql);
 
     /**
-     * 通过标识查询父字段值
+     * 通过标识查询父字段值和表名（实际上表的定义名，并非实际表名，避免sql注入）
      * @param tableMark
      * @return
      */
@@ -63,4 +63,6 @@ public interface AutoDefinitionMapper extends BaseMapper<AutoDefinition> {
     String isExistSon(String tableName);
 
     void dropTable(@Param("tableName") String tableName);
+
+    String queryTableName(@Param("name")String name);
 }

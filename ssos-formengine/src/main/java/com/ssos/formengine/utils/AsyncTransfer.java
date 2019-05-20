@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 public class AsyncTransfer {
     private final static ExecutorService executorService = Executors.newFixedThreadPool(1);
 
-    public final static <T> T invoke(Callable<T> callable) throws ExecutionException, InterruptedException {
+    public final static <T> T invoke(Callable<T> callable) throws Exception{
         Future<T> submit = executorService.submit(callable);
         return submit.get();
 

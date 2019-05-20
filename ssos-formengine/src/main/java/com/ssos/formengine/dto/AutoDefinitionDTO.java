@@ -18,7 +18,7 @@ import java.util.Set;
 public class AutoDefinitionDTO {
 
     @ApiModelProperty("名称")
-    private String autoTableName;
+    private String name;
 
     @ApiModelProperty("具体字段id")
     private Set<Long> fieldIds;
@@ -29,7 +29,7 @@ public class AutoDefinitionDTO {
     @Data
     public static class SonDefinition {
         @ApiModelProperty("名称")
-        private String autoTableName;
+        private String name;
         @ApiModelProperty("具体字段id")
         private Set<Long> fieldIds;
     }

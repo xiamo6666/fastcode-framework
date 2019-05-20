@@ -26,7 +26,7 @@ public interface BaseMapper<T> {
             method = "update",
             type = MapperProvider.class)
     @Transactional(rollbackFor = Exception.class)
-    boolean update(T var2);
+    Integer update(T var2);
 
     @SelectProvider(
             method = "select",

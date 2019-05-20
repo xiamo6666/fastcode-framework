@@ -21,17 +21,17 @@ public class TestController {
     /**
      * 测试添加
      */
-    @GetMapping("/test")
+    @GetMapping("/add")
     public void Test() {
         AutoDefinitionDTO autoDefinitionDTO = new AutoDefinitionDTO();
-        autoDefinitionDTO.setAutoTableName("test");
+        autoDefinitionDTO.setName("test");
         Set<Long> set = new HashSet();
         set.add(1L);
         set.add(2L);
         autoDefinitionDTO.setFieldIds(set);
         List<AutoDefinitionDTO.SonDefinition> sonDefinitions = new ArrayList<>();
         AutoDefinitionDTO.SonDefinition sonDefinition = new AutoDefinitionDTO.SonDefinition();
-        sonDefinition.setAutoTableName("testson");
+        sonDefinition.setName("testson");
         sonDefinition.setFieldIds(set);
         sonDefinitions.add(sonDefinition);
         autoDefinitionDTO.setSonDefinitions(sonDefinitions);

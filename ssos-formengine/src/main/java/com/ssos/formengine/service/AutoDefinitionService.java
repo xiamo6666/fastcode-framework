@@ -1,6 +1,7 @@
 package com.ssos.formengine.service;
 
 import com.ssos.formengine.dto.AutoDefinitionDTO;
+import com.ssos.formengine.service.impl.SonAutoDefinitionDTO;
 import com.ssos.formengine.vo.FormAllShowVO;
 import com.ssos.formengine.vo.FormOneShowVO;
 
@@ -13,13 +14,21 @@ import com.ssos.formengine.vo.FormOneShowVO;
  */
 public interface AutoDefinitionService {
     /**
-     * 添加数据并动态生成子表
+     * 生成表定义以及动态创建表
+     * 如果在list中有子表则遍历创建子表
+     *
      * @param definitionDTO
      */
     void add(AutoDefinitionDTO definitionDTO);
 
     /**
+     *单独为添加子表提交的接口
+     */
+    void sonAdd(SonAutoDefinitionDTO sonAutoDefinition);
+
+    /**
      * 通过X定义来查找当前字段和值(根据标识来查找)
+     *
      * @param mark 标识
      * @return
      */
@@ -27,9 +36,18 @@ public interface AutoDefinitionService {
 
     /**
      * 通过表名和id明细到具体一条数据,如果有子类还要加载子类
+     *
      * @param tableName
      * @param id
      * @return
      */
-    FormOneShowVO showOnetable(String tableName,Long id);
+    FormOneShowVO showOnetable(String tableName, Long id);
+
+    /**
+     * 更改表定义
+     * 同时同步表结果更改
+     */
+    default void updateDefinition() {
+
+    }
 }

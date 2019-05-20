@@ -42,14 +42,16 @@ public class AutoDefinitionServiceImpl implements AutoDefinitionService {
     @Transactional(rollbackFor = Exception.class)
     public void add(AutoDefinitionDTO definitionDTO) {
         //数据存入数据库
-        AutoDefinition autoDefinition = AutoDefinition.ofAutoDefinition(definitionDTO.getAutoTableName());
+        String name = definitionDTO.getName();
+        String tableName = SqlUtils.caseTableName(name);
+        AutoDefinition autoDefinition = AutoDefinition.of(tableName, name);
         // 插入一条定义
         autoDefinitionMapper.insert(autoDefinition);
         Set<Long> fieldIds = definitionDTO.getFieldIds();
         fieldIds.forEach((e) -> fieldAssociateMapper.insert(FieldAssociate.of(autoDefinition.getId(), e)));
 
         // 开始动态创建表
-        if (!createTable(fieldIds, definitionDTO.getAutoTableName(), false)) {
+        if (!createTable(fieldIds, tableName, false)) {
             throw new BaseException("创建表的时候出错");
         }
 
@@ -58,7 +60,8 @@ public class AutoDefinitionServiceImpl implements AutoDefinitionService {
         List<AutoDefinitionDTO.SonDefinition> sonDefinitions = definitionDTO.getSonDefinitions();
         //遍历出每一个list中到的每一个子表字段
         sonDefinitions.forEach((p) -> {
-            AutoDefinition sonDefinition = AutoDefinition.ofAutoDefinition(p.getAutoTableName())
+            String sonTableName = SqlUtils.caseTableName(p.getName());
+            AutoDefinition sonDefinition = AutoDefinition.of(sonTableName, p.getName())
                     .setParentId(autoDefinition.getId());
             //插入定义
             autoDefinitionMapper.insert(sonDefinition);
@@ -66,31 +69,52 @@ public class AutoDefinitionServiceImpl implements AutoDefinitionService {
             //插入定义字段关联
             sonFieldIds.forEach((ids) -> fieldAssociateMapper.insert(FieldAssociate.of(sonDefinition.getId(), ids)));
             //动态创建表，如果出错直接跑异常
-            if (!createTable(sonFieldIds, p.getAutoTableName(), true)) {
+            if (!createTable(sonFieldIds, sonTableName, true)) {
                 throw new BaseException("创建表的时候出错");
             }
         });
     }
 
     @Override
-    public FormAllShowVO showtable(String name) {
-        name = Objects.requireNonNull(name);
-        List<FieldShowVO> fields = autoDefinitionMapper.showMarkField(name);
+    @Transactional(rollbackFor = Exception.class)
+    public void sonAdd(SonAutoDefinitionDTO sonAutoDefinition) {
+        sonAutoDefinition.getSonDefinitions().forEach(p -> {
+            AutoDefinition autoDefinition = AutoDefinition.of(p.getName(), "").setParentId(sonAutoDefinition.getParentId());
+            autoDefinitionMapper.insert(autoDefinition);
+            Set<Long> fieldIds = p.getFieldIds();
+            fieldIds.forEach(ids -> fieldAssociateMapper.insert(FieldAssociate.of(autoDefinition.getId(), ids)));
+            //动态创建子表
+            if (!createTable(fieldIds, p.getName(), true)) {
+                throw new BaseException("创建表的时候出错");
+            }
+        });
+    }
+
+    @Override
+    public FormAllShowVO showtable(String mark) {
+        mark = Objects.requireNonNull(mark);
+        List<FieldShowVO> fields = autoDefinitionMapper.showMarkField(mark);
         if (fields == null || fields.size() == 0) {
             throw new BaseException("kong");
         }
-        List<Map<String, Object>> values = autoDefinitionMapper.showValue(fields.get(0).getTableName());
+        List<Map<String, Object>> values = autoDefinitionMapper.showValue(
+                autoDefinitionMapper.queryTableName(fields.get(0).getTableName())
+        );
 
         return FormAllShowVO.of(fields, values);
     }
 
     @Override
-    public FormOneShowVO showOnetable(String tableName, Long id) {
+    public FormOneShowVO showOnetable(String name, Long id) {
         FormOneShowVO formOneShowVO = new FormOneShowVO();
-        tableName = Objects.requireNonNull(tableName);
+        name = Objects.requireNonNull(name);
         //父表字段
-        List<FieldShowVO> fields = autoDefinitionMapper.showNameField(tableName);
+        List<FieldShowVO> fields = autoDefinitionMapper.showNameField(name);
         //父表值
+        String tableName = autoDefinitionMapper.queryTableName(name);
+        if (tableName.isEmpty()) {
+            throw new BaseException("数据在传输过程中被更改");
+        }
         List<Map<String, Object>> values = autoDefinitionMapper.showOneValue(tableName, id);
 
         formOneShowVO.setFormAllShowVO(FormAllShowVO.of(fields, values));
@@ -104,7 +128,8 @@ public class AutoDefinitionServiceImpl implements AutoDefinitionService {
         List<FormAllShowVO> sonFieldAndValule = new ArrayList<>();
         List<FieldShowVO> sonField = autoDefinitionMapper.showSonField(tableName);
         //可能会查出多个子类，所以需要根据表名分组
-        Map<String, List<FieldShowVO>> collect = sonField.stream().collect(Collectors.groupingBy(FieldShowVO::getTableName));
+        Map<String, List<FieldShowVO>> collect = sonField.stream()
+                .collect(Collectors.groupingBy(FieldShowVO::getTableName));
         collect.forEach((x, y) -> {
             //赋值子表值
             List<Map<String, Object>> sonValues = autoDefinitionMapper.showSonValue(x, id);
@@ -145,7 +170,7 @@ public class AutoDefinitionServiceImpl implements AutoDefinitionService {
                     autoDefinitionMapper.autoCreateTable(tableName, sql);
                 } catch (Exception e) {
                     System.out.println(e.toString());
-                    autoDefinitionMapper.dropTable(tableName);
+                    autoDefinitionMapper.dropTable(SqlUtils.caseTableName(tableName));
                     return false;
                 }
                 return true;
@@ -158,5 +183,6 @@ public class AutoDefinitionServiceImpl implements AutoDefinitionService {
             return false;
         }
     }
+
 
 }

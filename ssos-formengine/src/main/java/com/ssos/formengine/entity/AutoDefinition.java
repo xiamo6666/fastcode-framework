@@ -16,11 +16,12 @@ import java.time.LocalDateTime;
  */
 @Setter
 @Getter
-@RequiredArgsConstructor(staticName = "ofAutoDefinition")
+@RequiredArgsConstructor(staticName = "of")
 @Accessors(chain = true)
 public class AutoDefinition implements Serializable {
   private Long id;
   @NonNull  private String autoTableName;
+  @NonNull  private String name;
   private String mark;
   private Long parentId;
   private LocalDateTime createTime;

@@ -1,5 +1,6 @@
 package com.ssos.formengine.service.impl;
 
+import com.ssos.exception.BaseException;
 import com.ssos.formengine.dto.FieldDTO;
 import com.ssos.formengine.entity.Field;
 import com.ssos.formengine.mapper.FieldMapper;
@@ -24,8 +25,8 @@ public class FieldServiceImpl implements FieldService {
 
     @Override
     public void add(FieldDTO fieldDTO) {
-        Field field  = new Field();
-        BeanUtils.copyProperties(field,field);
+        Field field = new Field();
+        BeanUtils.copyProperties(field, field);
         fieldMapper.insert(field);
     }
 
@@ -37,5 +38,23 @@ public class FieldServiceImpl implements FieldService {
     @Override
     public List<FieldVO> findByIds(Set<Long> ids) {
         return fieldMapper.findByIds(ids);
+    }
+
+    @Override
+    public void update(Field field) {
+        Integer row = fieldMapper.update(field);
+        if (row == null && row == 0){
+            throw new BaseException("修改失败了");
+        }
+    }
+
+    /**
+     * 为了稳定性、暂不提供删除方法
+     * @param ids
+     * @return
+     */
+    @Override
+    public Integer delete(List<Integer> ids) {
+        return null;
     }
 }
