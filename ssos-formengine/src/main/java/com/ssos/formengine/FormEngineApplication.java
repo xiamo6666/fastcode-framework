@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-@MapperScan("com.ssos.formengine.mapper")
+@MapperScan({"com.ssos.formengine.mapper","com.ssos.base.mapper"})
 public class FormEngineApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FormEngineApplication.class, args);

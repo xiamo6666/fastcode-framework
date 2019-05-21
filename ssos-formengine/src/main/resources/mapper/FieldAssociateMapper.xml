@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssos.formengine.mapper.FieldAssociateMapper">
+
+    <select id="findFieldById" resultType="com.ssos.formengine.vo.FieldVO">
+select f.id id, f.field_name fieldName, f.field_mark fieldMark
+from field_associate fa
+         left join field f on fa.field_id = f.id
+where definition_table_id =  #{id}
+    </select>
+    <select id="findAll" resultType="com.ssos.formengine.vo.SysDefinitionVO">
+     select id,name,mark from auto_definition where parent_id = 0
+    </select>
+</mapper>

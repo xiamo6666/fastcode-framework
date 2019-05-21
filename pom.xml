@@ -13,6 +13,7 @@
         <module>ssos-mybatisUtils</module>
         <module>ssos-formengine</module>
         <module>ssos-exception</module>
+        <module>ssos-spring-boot-starter</module>
 
     </modules>
     <packaging>pom</packaging>

@@ -60,9 +60,27 @@ public interface AutoDefinitionMapper extends BaseMapper<AutoDefinition> {
     List<Map<String,Object>> showSonValue(@Param("tableName")String tableName, @Param("id") Long id);
 
 
+    /**
+     * 判断当前表名是否存在
+     * @param tableName
+     * @return
+     */
     String isExistSon(String tableName);
 
+    /**
+     * 干掉表
+     * @param tableName
+     */
     void dropTable(@Param("tableName") String tableName);
 
+    /**
+     * 根据定义名找到真正的表名
+     * @param name
+     * @return
+     */
     String queryTableName(@Param("name")String name);
+
+
+
+
 }
