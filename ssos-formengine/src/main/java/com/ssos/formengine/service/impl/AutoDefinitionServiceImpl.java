@@ -13,6 +13,7 @@ import com.ssos.formengine.service.AutoDefinitionService;
 import com.ssos.formengine.utils.AsyncTransfer;
 import com.ssos.formengine.utils.SqlUtils;
 import com.ssos.formengine.vo.FieldShowVO;
+import com.ssos.formengine.vo.FormAllFieldVO;
 import com.ssos.formengine.vo.FormAllShowVO;
 import com.ssos.formengine.vo.FormOneShowVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,13 +80,19 @@ public class AutoDefinitionServiceImpl implements AutoDefinitionService {
                 .collect(Collectors.groupingBy(FieldShowVO::getTableName));
         collect.forEach((x, y) -> {
             //赋值子表值
-            List<Map<String, Object>> sonValues = autoDefinitionMapper.showSonValue(x, id);
+            List<Map<String, Object>> sonValues = autoDefinitionMapper.showSonValue(SqlUtils.caseTableName(x), id);
             FormAllShowVO.of(y, sonValues);
             sonFieldAndValule.add(FormAllShowVO.of(y, sonValues));
         });
 
         formOneShowVO.setAllShowVOS(sonFieldAndValule);
         return formOneShowVO;
+    }
+
+    @Override
+    public FormAllFieldVO loadField(String mark) {
+
+        return  null;
     }
 
 

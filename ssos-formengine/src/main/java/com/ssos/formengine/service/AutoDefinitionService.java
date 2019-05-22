@@ -2,6 +2,7 @@ package com.ssos.formengine.service;
 
 import com.ssos.formengine.dto.AutoDefinitionDTO;
 import com.ssos.formengine.dto.SonAutoDefinitionDTO;
+import com.ssos.formengine.vo.FormAllFieldVO;
 import com.ssos.formengine.vo.FormAllShowVO;
 import com.ssos.formengine.vo.FormOneShowVO;
 
@@ -30,4 +31,12 @@ public interface AutoDefinitionService {
      * @return
      */
     FormOneShowVO showOnetable(String tableName, Long id);
+
+
+    /**
+     *
+     * @param mark
+     * @return
+     */
+    FormAllFieldVO loadField(String mark);
 }

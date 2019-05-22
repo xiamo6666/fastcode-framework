@@ -1,6 +1,7 @@
 package com.ssos.formengine.utils;
 
 
+import com.ssos.formengine.entity.Field;
 import com.ssos.formengine.vo.FieldVO;
 
 import java.util.Arrays;
@@ -16,6 +17,15 @@ import java.util.function.Supplier;
  * @Vsersion: 1.0
  */
 public final class SqlUtils {
+
+    public static final String sqlUpdate(FieldVO var) {
+        CreateSql createSql = new CreateSql();
+        CreateSql logic = logic(var, createSql);
+        StringBuilder sql = logic.createSql;
+        return sql.deleteCharAt(sql.length() - 1).toString();
+    }
+
+
     /**
      * 提供FieldVO字段自动生成创建表的sql
      *
@@ -23,35 +33,11 @@ public final class SqlUtils {
      * @return
      * @Param isSon
      */
-    public static final String sqlHelper(Supplier<? extends List<FieldVO>> var, boolean isSon) {
+    public static final String sqlHelper( List<FieldVO> var, boolean isSon) {
         Objects.requireNonNull(var);
-        List<FieldVO> fieldVOS = var.get();
+        //生成sql语句
         CreateSql createSql = new CreateSql();
-        fieldVOS.forEach(p -> {
-            Integer typeId = p.getFieldTypeId();
-            if (typeId == 1) {
-                createSql.Field(p.getFieldMark())
-                        .VARCHAR(p.getFieldMax() + "")
-                        .NOTNULL()
-                        .CHARDEFAULT()
-                        .COMMENT(p.getFieldName());
-            } else if (typeId == 2) {
-                createSql.Field(p.getFieldMark())
-                        .INT().NOTNULL()
-                        .INTDEFAULT()
-                        .COMMENT(p.getFieldName());
-            } else if (typeId == 3) {
-                createSql.Field(p.getFieldMark())
-                        .TIMESTAMP().NOTNULL()
-                        .DATEDEFAULT()
-                        .COMMENT(p.getFieldName());
-            } else {
-                createSql.Field(p.getFieldMark())
-                        .VARCHAR(p.getFieldMax() + "")
-                        .NOTNULL().CHARDEFAULT()
-                        .COMMENT(p.getFieldName());
-            }
-        });
+        var.forEach(p -> logic(p, createSql));
         //判断是否是子表，如果是子表还要添加上parent_id 字段
         if (isSon) {
             createSql.Field("parent_id").INT().NOTNULL().INTDEFAULT().COMMENT("父表id");
@@ -59,6 +45,39 @@ public final class SqlUtils {
         StringBuilder sql = createSql.createSql;
         return sql.deleteCharAt(sql.length() - 1).toString();
     }
+
+    /**
+     * @param p
+     * @param createSql
+     * @return
+     */
+    private static CreateSql logic(FieldVO p, CreateSql createSql) {
+        Integer typeId = p.getFieldTypeId();
+        if (typeId == 1) {
+            createSql.Field(p.getFieldMark())
+                    .VARCHAR(p.getFieldMax() + "")
+                    .NOTNULL()
+                    .CHARDEFAULT()
+                    .COMMENT(p.getFieldName());
+        } else if (typeId == 2) {
+            createSql.Field(p.getFieldMark())
+                    .INT().NOTNULL()
+                    .INTDEFAULT()
+                    .COMMENT(p.getFieldName());
+        } else if (typeId == 3) {
+            createSql.Field(p.getFieldMark())
+                    .TIMESTAMP().NOTNULL()
+                    .DATEDEFAULT()
+                    .COMMENT(p.getFieldName());
+        } else {
+            createSql.Field(p.getFieldMark())
+                    .VARCHAR(p.getFieldMax() + "")
+                    .NOTNULL().CHARDEFAULT()
+                    .COMMENT(p.getFieldName());
+        }
+        return createSql;
+    }
+
 
     /**
      * 转换表名创建、避免暴露表名导致sql注入攻击

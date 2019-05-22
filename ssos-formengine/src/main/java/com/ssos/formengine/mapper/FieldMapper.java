@@ -5,6 +5,7 @@ import com.ssos.formengine.vo.FieldVO;
 import com.ssos.mybatilsUtils.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -19,6 +20,6 @@ public interface FieldMapper extends BaseMapper<Field> {
 
     List<FieldVO> findAll();
 
-    List<FieldVO> findByIds(@Param("ids") Set<Long> ids);
+    List<FieldVO> findByIds(@Param("ids") Collection<Long> ids);
 
 }

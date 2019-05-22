@@ -7,6 +7,7 @@ import com.ssos.formengine.vo.SysDefinitionVO;
 import com.ssos.mybatilsUtils.mapper.BaseMapper;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @ClassName: FieldAssociateMapper
@@ -23,6 +24,14 @@ public interface FieldAssociateMapper  extends BaseMapper<FieldAssociate> {
      * @return
      */
     List<FieldVO> findFieldById(Long id);
+
+    /**
+     * 根据定义id查找 字段id
+     * @param id
+     * @return
+     */
+    Set<Long> findFieldIdById(Long id);
+
 
 
     List<SysDefinitionVO> findAll();

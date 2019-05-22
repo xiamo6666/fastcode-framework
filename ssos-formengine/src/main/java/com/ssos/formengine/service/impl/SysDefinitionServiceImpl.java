@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -53,10 +55,50 @@ public class SysDefinitionServiceImpl implements SysDefinitionService {
 
     //定义列表的修改
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void sysUpdateDefinition(UpdateDefinitionDTO updateDefinitionDTO) {
+        //先验证、计算出那些字段是新增的那些已经存在的
+        Set<Long> fieldId = fieldAssociateMapper.findFieldIdById(updateDefinitionDTO.getId());
+        List<Long> addFieladId = new ArrayList<>();
+        updateDefinitionDTO.getFieldIds().forEach(p -> {
+            //里面就是新增的字段
+            if (!(fieldId.contains(p))) {
+                //根据字段id查找字段详情
+                addFieladId.add(p);
+            }
+        });
+        //插入数据
+        addFieladId.forEach(p -> fieldAssociateMapper.insert(FieldAssociate.of(updateDefinitionDTO.getId(), p)));
+        String tableName = autoDefinitionMapper.findTableName(updateDefinitionDTO.getId());
+        List<FieldVO> fieldVOS = fieldMapper.findByIds(addFieladId);
+        if (fieldVOS.size() == 0) {
+            throw new BaseException("数据异常");
+        }
+        String sql = SqlUtils.sqlUpdate(fieldVOS.get(0));
+        try {
+            AsyncTransfer.invoke(() -> {
+                try {
+                    autoDefinitionMapper.updateDefinitionTable(tableName, sql);
+                } catch (Exception e) {
+                    //删除当前操作
+                    return false;
+                }
+                return true;
+            });
+        } catch (Exception e) {
+            throw new BaseException("修改表失败");
+        }
 
+
+        //先添加定义数据操作
+        /**
+         * alter table auto_320373950
+         * 	add column_5 int null;
+         */
     }
 
+
+    //定义数据添加和动态表创建
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void add(AutoDefinitionDTO definitionDTO) {
@@ -120,7 +162,7 @@ public class SysDefinitionServiceImpl implements SysDefinitionService {
     private boolean createTable(Set<Long> fieldIds, String tableName, boolean isSon) {
         try {
             Boolean invoke = AsyncTransfer.invoke(() -> {
-                String sql = SqlUtils.sqlHelper(() -> fieldMapper.findByIds(fieldIds), isSon);
+                String sql = SqlUtils.sqlHelper(fieldMapper.findByIds(fieldIds), isSon);
                 try {
                     autoDefinitionMapper.autoCreateTable(tableName, sql);
                 } catch (Exception e) {

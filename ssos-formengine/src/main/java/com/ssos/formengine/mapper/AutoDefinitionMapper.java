@@ -80,6 +80,18 @@ public interface AutoDefinitionMapper extends BaseMapper<AutoDefinition> {
      */
     String queryTableName(@Param("name")String name);
 
+    /**
+     * 动态给表添加字段
+     */
+    void updateDefinitionTable(@Param("tableName") String tableName,@Param("sql") String sql);
+
+    /**
+     * 根据id查找动态表表名
+     * @param id
+     * @return
+     */
+    String findTableName(@Param("id") Long id);
+
 
 
 

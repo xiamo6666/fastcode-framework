@@ -11,6 +11,9 @@
     <update id="dropTable">
         drop table ${tableName}
     </update>
+    <update id="updateDefinitionTable">
+        alter table ${tableName} add ${sql}
+    </update>
     <select id="showMarkField" resultType="com.ssos.formengine.vo.FieldShowVO">
       select f.field_name name ,f.field_mark  mark ,ad.name tableName from auto_definition ad
     left join field_associate fa on ad.id = fa.definition_table_id
@@ -40,7 +43,7 @@
 
     </select>
     <select id="showSonField" resultType="com.ssos.formengine.vo.FieldShowVO">
-    select f.field_name name ,f.field_mark  mark,ad.auto_table_name tableName from auto_definition ad
+    select f.field_name name ,f.field_mark  mark,ad.name tableName from auto_definition ad
 left join field_associate fa on ad.id = fa.definition_table_id
 left join field f on fa.field_id = f.id
 where ad.parent_id =(select id   from  auto_definition  where parent_id = 0 and auto_table_name = #{tableName})
@@ -48,5 +51,8 @@ where ad.parent_id =(select id   from  auto_definition  where parent_id = 0 and 
     </select>
     <select id="queryTableName" resultType="java.lang.String">
         select auto_table_name from auto_definition  where name = #{name}  limit 0,1
+    </select>
+    <select id="findTableName" resultType="java.lang.String">
+        select auto_table_name from auto_definition  where id = #{id}  limit 0,1
     </select>
 </mapper>

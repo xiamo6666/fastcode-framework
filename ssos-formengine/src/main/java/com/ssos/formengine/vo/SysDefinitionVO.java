@@ -1,5 +1,6 @@
 package com.ssos.formengine.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,10 @@ import lombok.ToString;
 @Getter
 @ToString
 public class SysDefinitionVO {
+    @ApiModelProperty("字段id")
     private Long id;
+    @ApiModelProperty("字段名称")
     private String name;
+    @ApiModelProperty("字段标识")
     private String mark;
 }

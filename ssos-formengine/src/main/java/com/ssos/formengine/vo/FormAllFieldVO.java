@@ -2,22 +2,24 @@ package com.ssos.formengine.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @ClassName: FormOneShowVO
+ * @ClassName: FormAllFieldVO
  * @Description: TODD
  * @Author: xwl
- * @Date: 2019-05-15 17:49
+ * @Date: 2019-05-22 17:50
  * @Vsersion: 1.0
  */
 @Data
-public class FormOneShowVO {
+public class FormAllFieldVO {
     @ApiModelProperty("主表")
-    private FormAllShowVO formAllShowVO;
+    private FormFileVO formFileVO;
     @ApiModelProperty("子表")
-    private List<FormAllShowVO> allShowVOS;
+    private List<FormFileVO> sonFileVO;
+
+    @Data
+    public class FormFileVO {
+        private List<FieldVO> fields;
+    }
 }

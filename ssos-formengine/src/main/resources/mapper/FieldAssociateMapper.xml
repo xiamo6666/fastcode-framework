@@ -11,4 +11,11 @@ where definition_table_id =  #{id}
     <select id="findAll" resultType="com.ssos.formengine.vo.SysDefinitionVO">
      select id,name,mark from auto_definition where parent_id = 0
     </select>
+    <select id="findFieldIdById" resultType="java.lang.Long">
+       select f.id id
+from field_associate fa
+         left join field f on fa.field_id = f.id
+where definition_table_id =  #{id}
+
+    </select>
 </mapper>
