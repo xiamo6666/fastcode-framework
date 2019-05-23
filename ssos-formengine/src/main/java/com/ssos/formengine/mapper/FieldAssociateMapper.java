@@ -1,7 +1,6 @@
 package com.ssos.formengine.mapper;
 
 import com.ssos.formengine.entity.FieldAssociate;
-import com.ssos.formengine.vo.FieldShowVO;
 import com.ssos.formengine.vo.FieldVO;
 import com.ssos.formengine.vo.SysDefinitionVO;
 import com.ssos.mybatilsUtils.mapper.BaseMapper;

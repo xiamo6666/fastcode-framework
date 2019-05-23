@@ -1,26 +1,21 @@
 package com.ssos.formengine.service.impl;
 
 import com.ssos.exception.BaseException;
-import com.ssos.formengine.dto.AutoDefinitionDTO;
-import com.ssos.formengine.dto.SonAutoDefinitionDTO;
-import com.ssos.formengine.dto.UpdateDefinitionDTO;
-import com.ssos.formengine.entity.AutoDefinition;
-import com.ssos.formengine.entity.FieldAssociate;
+import com.ssos.formengine.dto.DataAddDTO;
+import com.ssos.formengine.entity.AddData;
 import com.ssos.formengine.mapper.AutoDefinitionMapper;
 import com.ssos.formengine.mapper.FieldAssociateMapper;
-import com.ssos.formengine.mapper.FieldMapper;
 import com.ssos.formengine.service.AutoDefinitionService;
-import com.ssos.formengine.utils.AsyncTransfer;
 import com.ssos.formengine.utils.SqlUtils;
-import com.ssos.formengine.vo.FieldShowVO;
-import com.ssos.formengine.vo.FormAllFieldVO;
-import com.ssos.formengine.vo.FormAllShowVO;
-import com.ssos.formengine.vo.FormOneShowVO;
+import com.ssos.formengine.vo.*;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -69,7 +64,7 @@ public class AutoDefinitionServiceImpl implements AutoDefinitionService {
 
         //子表查询
         //判断子表是否存在
-        if (isExistSon(tableName)) {
+        if (!(isExistSon(name))) {
             return formOneShowVO;
         }
         //创建子表字段和值集合
@@ -91,8 +86,52 @@ public class AutoDefinitionServiceImpl implements AutoDefinitionService {
 
     @Override
     public FormAllFieldVO loadField(String mark) {
+        //load 主表
+        List<FieldLoadVo> fieldLoadVos = autoDefinitionMapper.loadMarkField(mark);
+        FormAllFieldVO info = FormAllFieldVO.of(FormAllFieldVO.FormFileVO.of(fieldLoadVos));
+        if (fieldLoadVos.size() == 0) {
+            return info;
+        }
+        //判断当前表是否有子类
+        String definitionName = fieldLoadVos.get(0).getName();
+        if (!(isExistSon(definitionName))) {
+            return info;
+        }
+        info.setSonFileVO(new ArrayList<>());
+        //子表的字段
+        List<FieldLoadVo> sonField = autoDefinitionMapper.loadSonField(definitionName);
+        //根据表定义分组
+        Map<String, List<FieldLoadVo>> collect = sonField.stream().collect(Collectors.groupingBy(FieldLoadVo::getName));
+        //load 子表
+        collect.forEach((x, y) -> {
+            info.getSonFileVO().add(FormAllFieldVO.FormFileVO.of(y));
+        });
+        return info;
+    }
 
-        return  null;
+
+    @Override
+    public void addData(DataAddDTO dto) {
+        //主表
+        AddData insertSql = new AddData();
+        DataAddDTO.DataInfos infos = dto.getInfos();
+        infos.getValue().forEach(p -> {
+            SQL sql = new SQL().INSERT_INTO(SqlUtils.caseTableName(infos.getName()));
+            p.forEach((x, y) -> sql.VALUES(x, y));
+            //执行添加操作
+            insertSql.setSql(sql.toString());
+            autoDefinitionMapper.insertData(insertSql);
+        });
+        // 子表
+        dto.getSonInfos().forEach(p -> {
+            String tableName = p.getName();
+            p.getValue().forEach(e -> {
+                SQL sql = new SQL().INSERT_INTO(SqlUtils.caseTableName(tableName));
+                e.forEach((x, y) -> sql.VALUES(x, y));
+                sql.VALUES("parent_id", insertSql.getId() + "");
+                autoDefinitionMapper.insertData(AddData.of(sql.toString()));
+            });
+        });
     }
 
 
@@ -101,9 +140,9 @@ public class AutoDefinitionServiceImpl implements AutoDefinitionService {
      *
      * @return
      */
-    private boolean isExistSon(String tableName) {
-        String son = autoDefinitionMapper.isExistSon(tableName);
-        if (son != null && son.isEmpty()) {
+    private boolean isExistSon(String definitionName) {
+        String son = autoDefinitionMapper.isExistSon(definitionName);
+        if (son != null && !(son.isEmpty())) {
             return true;
         }
         return false;

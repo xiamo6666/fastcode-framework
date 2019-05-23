@@ -1,6 +1,6 @@
 package com.ssos.formengine.controller;
 
-import com.ssos.base.model.DateResult;
+import com.ssos.base.model.DataResult;
 import com.ssos.formengine.dto.AutoDefinitionDTO;
 import com.ssos.formengine.dto.UpdateDefinitionDTO;
 import com.ssos.formengine.service.SysDefinitionService;
@@ -31,27 +31,27 @@ public class SysDefinitionController {
 
     @ApiOperation("查询定义表列表（无子表）")
     @GetMapping("/findAll")
-    public DateResult<List<SysDefinitionVO>> findAll() {
-        return DateResult.ok(sysDefinitionService.SysDefinition());
+    public DataResult<List<SysDefinitionVO>> findAll() {
+        return DataResult.ok(sysDefinitionService.SysDefinition());
     }
 
     @ApiOperation("根据id获取field字段列表")
     @GetMapping("/findFieldById")
-    public DateResult<List<FieldVO>> findFieldById(@RequestParam Long id) {
-        return DateResult.ok(sysDefinitionService.findFieldById(id));
+    public DataResult<List<FieldVO>> findFieldById(@RequestParam Long id) {
+        return DataResult.ok(sysDefinitionService.findFieldById(id));
     }
 
     @ApiOperation("定义添加以及动态创建表")
     @PostMapping("/addDefinition")
-    public DateResult add(@RequestBody AutoDefinitionDTO autoDefinitionDTO) {
+    public DataResult add(@RequestBody AutoDefinitionDTO autoDefinitionDTO) {
         sysDefinitionService.add(autoDefinitionDTO);
-        return DateResult.ok();
+        return DataResult.ok();
     }
 
     @ApiOperation("定义修改以及动态修改表结构")
     @PostMapping("/updateDefinition")
-    public DateResult update(@RequestBody @Valid UpdateDefinitionDTO updateDefinitionDTO) {
+    public DataResult update(@RequestBody @Valid UpdateDefinitionDTO updateDefinitionDTO) {
         sysDefinitionService.sysUpdateDefinition(updateDefinitionDTO);
-        return DateResult.ok();
+        return DataResult.ok();
     }
 }

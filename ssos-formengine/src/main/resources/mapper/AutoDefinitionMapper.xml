@@ -39,7 +39,7 @@
     </select>
     <select id="isExistSon" resultType="java.lang.String">
         select auto_table_name from auto_definition where parent_id =
-(select id from auto_definition where mark = #{tableName}) limit 0,1
+(select id from auto_definition where name = #{definitionName}) limit 0,1
 
     </select>
     <select id="showSonField" resultType="com.ssos.formengine.vo.FieldShowVO">
@@ -54,5 +54,31 @@ where ad.parent_id =(select id   from  auto_definition  where parent_id = 0 and 
     </select>
     <select id="findTableName" resultType="java.lang.String">
         select auto_table_name from auto_definition  where id = #{id}  limit 0,1
+    </select>
+    <select id="loadMarkField" resultType="com.ssos.formengine.vo.FieldLoadVo">
+        select f.id                  id,
+       f.field_mark          fieldMark,
+       f.field_name          fieldName,
+       f.field_type_id       fieldTypeId,
+       f.field_default_value fieldDefaultValue,
+       ad.name               name
+from auto_definition ad
+         left join field_associate fa on ad.id = fa.definition_table_id
+         left join field f on fa.field_id = f.id
+where ad.mark = #{mark}
+  and ad.parent_id = 0
+
+    </select>
+    <select id="loadSonField" resultType="com.ssos.formengine.vo.FieldLoadVo">
+select f.id                  id,
+       f.field_mark          fieldMark,
+       f.field_name          fieldName,
+       f.field_type_id       fieldTypeId,
+       f.field_default_value fieldDefaultValue,
+       ad.name               name
+from auto_definition ad
+    left join field_associate fa on ad.id = fa.definition_table_id
+    left join field f on fa.field_id = f.id
+where ad.parent_id = (select id from auto_definition where parent_id = 0 and name = #{definitionName})
     </select>
 </mapper>

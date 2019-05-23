@@ -1,13 +1,16 @@
 package com.ssos.formengine.mapper;
 
+import com.ssos.formengine.entity.AddData;
 import com.ssos.formengine.entity.AutoDefinition;
+import com.ssos.formengine.vo.FieldLoadVo;
 import com.ssos.formengine.vo.FieldShowVO;
 import com.ssos.mybatilsUtils.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
-
 public interface AutoDefinitionMapper extends BaseMapper<AutoDefinition> {
 
     void  autoCreateTable(@Param("table") String table,@Param("sql") String sql);
@@ -61,11 +64,11 @@ public interface AutoDefinitionMapper extends BaseMapper<AutoDefinition> {
 
 
     /**
-     * 判断当前表名是否存在
-     * @param tableName
+     * 根据标识去
+     * @param definitionName
      * @return
      */
-    String isExistSon(String tableName);
+    String isExistSon(String definitionName);
 
     /**
      * 干掉表
@@ -91,6 +94,28 @@ public interface AutoDefinitionMapper extends BaseMapper<AutoDefinition> {
      * @return
      */
     String findTableName(@Param("id") Long id);
+
+
+
+    /**
+     * 通过标识查询父字段值和表名（实际上表的定义名，并非实际表名，避免sql注入）
+     * @param mark
+     * @return
+     */
+    List<FieldLoadVo> loadMarkField(@Param("mark") String mark);
+
+
+    /**
+     * 根据定义名称
+     * @param definitionName
+     * @return
+     */
+    List<FieldLoadVo> loadSonField(String definitionName);
+
+
+    @Insert("${sql}")
+    @Options(useGeneratedKeys = true)
+    Long insertData(AddData addData);
 
 
 

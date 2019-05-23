@@ -1,6 +1,7 @@
 package com.ssos.formengine.service;
 
 import com.ssos.formengine.dto.AutoDefinitionDTO;
+import com.ssos.formengine.dto.DataAddDTO;
 import com.ssos.formengine.dto.SonAutoDefinitionDTO;
 import com.ssos.formengine.vo.FormAllFieldVO;
 import com.ssos.formengine.vo.FormAllShowVO;
@@ -34,9 +35,14 @@ public interface AutoDefinitionService {
 
 
     /**
-     *
+     *加载所有字段（包括子表）
      * @param mark
      * @return
      */
     FormAllFieldVO loadField(String mark);
+
+    /**
+     *添加表中的数据
+     */
+    void addData(DataAddDTO dto);
 }

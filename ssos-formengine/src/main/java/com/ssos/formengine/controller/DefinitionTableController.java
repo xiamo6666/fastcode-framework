@@ -1,6 +1,7 @@
 package com.ssos.formengine.controller;
 
-import com.ssos.base.model.DateResult;
+import com.ssos.base.model.DataResult;
+import com.ssos.formengine.dto.DataAddDTO;
 import com.ssos.formengine.service.AutoDefinitionService;
 import com.ssos.formengine.vo.FormAllFieldVO;
 import com.ssos.formengine.vo.FormAllShowVO;
@@ -8,10 +9,7 @@ import com.ssos.formengine.vo.FormOneShowVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ClassName: DefinitionTableController
@@ -29,19 +27,81 @@ public class DefinitionTableController {
 
     @ApiOperation("根据标识查找数据列表")
     @GetMapping("/showTable")
-    public DateResult<FormAllShowVO> showTable(@RequestParam String mark) {
-        return DateResult.ok(autoDefinitionService.showtable(mark));
+    public DataResult<FormAllShowVO> showTable(@RequestParam String mark) {
+        return DataResult.ok(autoDefinitionService.showtable(mark));
     }
 
     @ApiOperation("查看数据详情")
     @GetMapping("/showOneTable")
-    public DateResult<FormOneShowVO> showOneTable(@RequestParam String tableName, @RequestParam Long id) {
-        return DateResult.ok(autoDefinitionService.showOnetable(tableName, id));
+    public DataResult<FormOneShowVO> showOneTable(@RequestParam String tableName, @RequestParam Long id) {
+        return DataResult.ok(autoDefinitionService.showOnetable(tableName, id));
     }
 
     @ApiOperation("通过标识加载动态表")
     @GetMapping("/load")
-    public DateResult<FormAllFieldVO> load(@RequestParam  String mark){
+    public DataResult<FormAllFieldVO> load(@RequestParam String mark) {
+        return DataResult.ok(autoDefinitionService.loadField(mark));
+    }
+
+    @ApiOperation(value = "添加数据",notes = "{\n" +
+            "  \"infos\": {\n" +
+            "    \"name\": \"这是主表\",\n" +
+            "    \"value\": [\n" +
+            "      {\n" +
+            "        \"key1\": \"value1\", //分别是字段，和值\n" +
+            "        \"key2\": \"value1\",\n" +
+            "        \"key3\": \"value1\",\n" +
+            "        \"key4\": \"value1\",\n" +
+            "        \"key5\": \"value1\",\n" +
+            "        \"key6\": \"value1\"\n" +
+            "      }                  //一行数据的情况下\n" +
+            "    ]\n" +
+            "  },\n" +
+            "  \"sonInfos\": [\n" +
+            "    {\n" +
+            "      \"name\": \"string\",\n" +
+            "      \"value\": [\n" +
+            "        {\n" +
+            "        \"key1\": \"value1\", //分别是字段，和值\n" +
+            "        \"key2\": \"value1\",\n" +
+            "        \"key3\": \"value1\",\n" +
+            "        \"key4\": \"value1\",\n" +
+            "        \"key5\": \"value1\",\n" +
+            "        \"key6\": \"value1\"\n" +
+            "        },{\n" +
+            "        \"key1\": \"value1\", //分别是字段，和值\n" +
+            "        \"key2\": \"value1\",\n" +
+            "        \"key3\": \"value1\",\n" +
+            "        \"key4\": \"value1\",\n" +
+            "        \"key5\": \"value1\",\n" +
+            "        \"key6\": \"value1\"\n" +
+            "        }                 //多行数据\n" +
+            "      ]\n" +
+            "    },   {\n" +
+            "      \"name\": \"string\",\n" +
+            "      \"value\": [\n" +
+            "        {\n" +
+            "        \"key1\": \"value1\", //分别是字段，和值\n" +
+            "        \"key2\": \"value1\",\n" +
+            "        \"key3\": \"value1\",\n" +
+            "        \"key4\": \"value1\",\n" +
+            "        \"key5\": \"value1\",\n" +
+            "        \"key6\": \"value1\"\n" +
+            "        },{\n" +
+            "        \"key1\": \"value1\", //分别是字段，和值\n" +
+            "        \"key2\": \"value1\",\n" +
+            "        \"key3\": \"value1\",\n" +
+            "        \"key4\": \"value1\",\n" +
+            "        \"key5\": \"value1\",\n" +
+            "        \"key6\": \"value1\"\n" +
+            "        }                 \n" +
+            "      ]\n" +
+            "    }                    //多张子表\n" +
+            "  ]\n" +
+            "}")
+    @PostMapping("/add")
+    public DataResult addData(@RequestBody DataAddDTO dto) {
+        autoDefinitionService.addData(dto);
         return null;
     }
 }
