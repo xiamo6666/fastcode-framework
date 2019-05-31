@@ -16,7 +16,6 @@ import java.util.List;
  * @Date: 2018-12-19 14:58
  * @Vsersion: 1.0
  */
-@Mapper
 public interface UserMapper extends BaseMapper<User> {
 
     @Select("select p.identify from user u\n" +

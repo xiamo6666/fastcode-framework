@@ -14,6 +14,7 @@
         <module>ssos-formengine</module>
         <module>ssos-exception</module>
         <module>ssos-spring-boot-starter</module>
+        <module>ssos-formenginV2</module>
 
     </modules>
     <packaging>pom</packaging>
