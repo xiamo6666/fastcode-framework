@@ -21,17 +21,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/test")
 @Api(tags = "test")
-public class testController {
+public class PlanController {
     @Autowired
     PlanServiceImpl planService;
 
-    @ApiOperation("test")
+    @ApiOperation("计划查询")
     @GetMapping("/find")
     public DataResult<List<PlanVo>> test() {
         return DataResult.ok(planService.select());
     }
 
-    @ApiOperation("tests")
+    @ApiOperation("tests" )
     @PostMapping("/add")
     public DataResult add(@RequestBody PlanDto dto) {
         planService.add(dto);

@@ -21,7 +21,7 @@ import java.util.List;
  * @Vsersion: 1.0
  */
 @Service
-@Formengin("plan")
+@Formengin(name = "plan",notes = "计划")
 public class PlanServiceImpl implements PlanService {
     @Autowired
     private PlanMapper planMapper;
