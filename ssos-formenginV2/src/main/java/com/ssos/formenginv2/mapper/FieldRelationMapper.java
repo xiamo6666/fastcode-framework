@@ -17,7 +17,6 @@ public interface FieldRelationMapper extends BaseMapper<FieldRelation> {
     /**
      * 查询所有的表名
      * @return
-     *
      */
     Set<String> findAllTableName();
 }
