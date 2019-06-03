@@ -20,4 +20,15 @@ where ff.form_id = #{id}
 
         select id from field_relation
     </select>
+    <select id="loadField" resultType="com.ssos.formenginv2.vo.FieldInfoVo">
+select f.id                  id,
+       f.field_mark          fieldMark,
+       f.field_name          fieldName,
+       f.field_type_id       fieldTypeId,
+       f.field_default_value fieldDefaultValue
+from field_relation fr
+         left join form_field ff on fr.id = ff.form_id
+         left join field f on ff.field_id = f.id
+where fr.table_name = #{mark}
+    </select>
 </mapper>

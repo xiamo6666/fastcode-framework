@@ -7,6 +7,7 @@ import com.ssos.formenginv2.mapper.FieldMapper;
 import com.ssos.formenginv2.mapper.FieldRelationMapper;
 import com.ssos.formenginv2.mapper.FormFieldMapper;
 import com.ssos.formenginv2.service.FormenginConfigService;
+import com.ssos.formenginv2.vo.FieldInfoVo;
 import com.ssos.formenginv2.vo.FieldRelationVo;
 import com.ssos.formenginv2.vo.FieldVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class FormenginConfigServiceImpl implements FormenginConfigService {
 
     @Autowired
     private FieldRelationMapper relationMapper;
+
     @Autowired
     private FormFieldMapper formFieldMapper;
 
@@ -40,10 +42,12 @@ public class FormenginConfigServiceImpl implements FormenginConfigService {
         return relationMapper.findAll();
     }
 
+
     @Override
     public List<FieldVo> findFieleById(Long id) {
         return relationMapper.findFieleById(id);
     }
+
 
     @Override
     public void addField(FormFieldAddDto dto) {
@@ -66,5 +70,10 @@ public class FormenginConfigServiceImpl implements FormenginConfigService {
         } catch (Exception e) {
             throw new BaseException("添加失败");
         }
+    }
+
+    @Override
+    public List<FieldInfoVo> loadField(String mark) {
+        return relationMapper.loadField(mark);
     }
 }

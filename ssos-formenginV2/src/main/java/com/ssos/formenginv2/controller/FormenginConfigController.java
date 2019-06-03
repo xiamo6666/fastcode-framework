@@ -3,6 +3,7 @@ package com.ssos.formenginv2.controller;
 import com.ssos.base.model.DataResult;
 import com.ssos.formenginv2.dto.FormFieldAddDto;
 import com.ssos.formenginv2.service.FormenginConfigService;
+import com.ssos.formenginv2.vo.FieldInfoVo;
 import com.ssos.formenginv2.vo.FieldRelationVo;
 import com.ssos.formenginv2.vo.FieldVo;
 import io.swagger.annotations.Api;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 /**
@@ -44,6 +46,12 @@ public class FormenginConfigController {
     public DataResult addField(@RequestBody FormFieldAddDto dto) {
         configService.addField(dto);
         return DataResult.ok();
+    }
+
+    @ApiOperation("load表单字段")
+    @GetMapping("/loadField")
+    public DataResult<List<FieldInfoVo>> loadField(@RequestParam String mark) {
+        return DataResult.ok(configService.loadField(mark));
     }
 
 }

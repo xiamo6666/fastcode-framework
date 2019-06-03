@@ -1,6 +1,7 @@
 package com.ssos.formenginv2.service;
 
 import com.ssos.formenginv2.dto.FormFieldAddDto;
+import com.ssos.formenginv2.vo.FieldInfoVo;
 import com.ssos.formenginv2.vo.FieldRelationVo;
 import com.ssos.formenginv2.vo.FieldVo;
 
@@ -33,4 +34,7 @@ public interface FormenginConfigService {
      * @param dto
      */
     void addField(FormFieldAddDto dto);
+
+
+    List<FieldInfoVo> loadField(String mark);
 }
