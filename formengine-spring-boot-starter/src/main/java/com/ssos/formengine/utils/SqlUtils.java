@@ -2,11 +2,13 @@ package com.ssos.formengine.utils;
 
 
 import com.ssos.formengine.entity.Field;
+import com.ssos.formengine.support.FieldIdType;
+import com.ssos.formengine.support.impl.DateFieldIdTypeImpl;
+import com.ssos.formengine.support.impl.InputFieldIdTypeImpl;
+import com.ssos.formengine.support.impl.NumberFieldIdTypeImpl;
 import com.ssos.formengine.vo.FieldVO;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
@@ -14,9 +16,15 @@ import java.util.function.Supplier;
  * @Description: TODD
  * @Author: xwl
  * @Date: 2019-05-13 17:31
- * @Vsersion: 1.0
+ * @Vsersion: 1.0ØØØØ
  */
 public final class SqlUtils {
+
+    public static final Map<Integer, FieldIdType> sqlType = new HashMap<Integer, FieldIdType>() {{
+        sqlType.put(1, new NumberFieldIdTypeImpl());
+        sqlType.put(2, new InputFieldIdTypeImpl());
+        sqlType.put(3, new DateFieldIdTypeImpl());
+    }};
 
     public static final String sqlUpdate(FieldVO var) {
         CreateSql createSql = new CreateSql();
@@ -33,7 +41,7 @@ public final class SqlUtils {
      * @return
      * @Param isSon
      */
-    public static final String sqlHelper( List<FieldVO> var, boolean isSon) {
+    public static final String sqlHelper(List<FieldVO> var, boolean isSon) {
         Objects.requireNonNull(var);
         //生成sql语句
         CreateSql createSql = new CreateSql();
@@ -47,35 +55,17 @@ public final class SqlUtils {
     }
 
     /**
+     * 生成sql语句
+     *
      * @param p
      * @param createSql
      * @return
      */
     private static CreateSql logic(FieldVO p, CreateSql createSql) {
         Integer typeId = p.getFieldTypeId();
-        if (typeId == 1) {
-            createSql.Field(p.getFieldMark())
-                    .VARCHAR(p.getFieldMax() + "")
-                    .NOTNULL()
-                    .CHARDEFAULT()
-                    .COMMENT(p.getFieldName());
-        } else if (typeId == 2) {
-            createSql.Field(p.getFieldMark())
-                    .INT().NOTNULL()
-                    .INTDEFAULT()
-                    .COMMENT(p.getFieldName());
-        } else if (typeId == 3) {
-            createSql.Field(p.getFieldMark())
-                    .TIMESTAMP().NOTNULL()
-                    .DATEDEFAULT()
-                    .COMMENT(p.getFieldName());
-        } else {
-            createSql.Field(p.getFieldMark())
-                    .VARCHAR(p.getFieldMax() + "")
-                    .NOTNULL().CHARDEFAULT()
-                    .COMMENT(p.getFieldName());
-        }
-        return createSql;
+        FieldIdType fieldIdType = sqlType.get(typeId);
+        return fieldIdType == null ? sqlType.get(1).createSql(p, createSql) :
+                fieldIdType.createSql(p, createSql);
     }
 
 
@@ -89,65 +79,4 @@ public final class SqlUtils {
         return "auto_" + Objects.hash(Arrays.hashCode(tableName.getBytes()));
     }
 
-
-    /**
-     * @ClassName: CreateSql
-     * @Description: TODD
-     * @Author: xwl
-     * @Date: 2019-05-16 15:55
-     * @Vsersion: 1.0
-     */
-    private final static class CreateSql {
-
-        private void add(String sql) {
-            createSql.append(sql);
-        }
-
-        private final StringBuilder createSql = new StringBuilder();
-
-        private CreateSql VARCHAR(String size) {
-            add(" VARCHAR(" + size + ") ");
-            return this;
-        }
-
-        private CreateSql NOTNULL() {
-            add(" NOT NULL ");
-            return this;
-        }
-
-        private CreateSql COMMENT(String comment) {
-            add(" COMMENT '" + comment + "' ,");
-            return this;
-        }
-
-        private CreateSql INT() {
-            add(" INT ");
-            return this;
-        }
-
-        private CreateSql INTDEFAULT() {
-            add(" DEFAULT 0 ");
-            return this;
-        }
-
-        private CreateSql CHARDEFAULT() {
-            add(" DEFAULT '' ");
-            return this;
-        }
-
-        private CreateSql DATEDEFAULT() {
-            add(" default current_timestamp ");
-            return this;
-        }
-
-        private CreateSql Field(String field) {
-            add(" " + field + " ");
-            return this;
-        }
-
-        private CreateSql TIMESTAMP() {
-            add(" timestamp ");
-            return this;
-        }
-    }
 }

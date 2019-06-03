@@ -11,10 +11,10 @@
         <module>ssos-web</module>
         <module>flowable-spring-boot-starter</module>
         <module>ssos-mybatisUtils</module>
-        <module>ssos-formengine</module>
+        <module>formengine-spring-boot-starter</module>
         <module>ssos-exception</module>
         <module>ssos-spring-boot-starter</module>
-        <module>ssos-formenginV2</module>
+        <module>formenginV2-spring-boot-starter</module>
 
     </modules>
     <packaging>pom</packaging>
