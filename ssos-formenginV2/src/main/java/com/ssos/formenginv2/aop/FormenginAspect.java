@@ -4,7 +4,7 @@ import com.ssos.exception.BaseException;
 import com.ssos.formenginv2.annotation.Formengin;
 import com.ssos.formenginv2.entity.BaseField;
 import com.ssos.formenginv2.entity.FieldValue;
-import com.ssos.formenginv2.mapper.FieldMapper;
+import com.ssos.formenginv2.mapper.FieldValueMapper;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @SuppressWarnings("all")
 public class FormenginAspect {
     @Autowired
-    private FieldMapper fieldMapper;
+    private FieldValueMapper fieldValueMapper;
 
     @Around("@within(formengin)")
     public Object around(ProceedingJoinPoint joinPoint, Formengin formengin) {
@@ -56,7 +56,7 @@ public class FormenginAspect {
                 Class resultClass = (Class) ((ParameterizedType) type).getActualTypeArguments()[0];
                 if (BaseField.class.isAssignableFrom(resultClass)) {
                     Collection<BaseField> proceed = (List<BaseField>) joinPoint.proceed();
-                    proceed.forEach(p -> p.setJson(fieldMapper.findValue(formengin.name(), p.getId())));
+                    proceed.forEach(p -> p.setJson(fieldValueMapper.findValue(formengin.name(), p.getId())));
                     return proceed;
                 }
             }
@@ -71,7 +71,7 @@ public class FormenginAspect {
                 if (BaseField.class.isAssignableFrom(parameterType)) {
                     joinPoint.proceed();
                     BaseField baseField = ((BaseField) joinPoint.getArgs()[0]);
-                    fieldMapper.insert(FieldValue.of(baseField.getId(), formengin.name(), baseField.getJson()));
+                    fieldValueMapper.insert(FieldValue.of(baseField.getId(), formengin.name(), baseField.getJson()));
                 } else {
                     //如果是其他方法直接通过
                     return joinPoint.proceed();

@@ -1,12 +1,13 @@
-package com.ssos.web.service.impl;
+package com.ssos.base.service.impl;
 
-import com.ssos.web.base.common.JwtToken;
-import com.ssos.web.base.utils.JwtUtils;
-import com.ssos.web.base.utils.PasswordUtils;
-import com.ssos.web.dto.UserDTO;
-import com.ssos.web.entity.User;
-import com.ssos.web.mapper.UserMapper;
-import com.ssos.web.service.UserService;
+import com.ssos.base.common.JwtToken;
+import com.ssos.base.dto.UserDTO;
+import com.ssos.base.entity.User;
+import com.ssos.base.mapper.UserMapper;
+import com.ssos.base.service.UserService;
+import com.ssos.base.utils.JwtUtils;
+import com.ssos.base.utils.PasswordUtils;
+import com.ssos.exception.BaseException;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.subject.Subject;
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateDate(User user) {
+    public Integer updateDate(User user) {
 
         return userMapper.update(user);
     }

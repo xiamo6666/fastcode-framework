@@ -1,4 +1,4 @@
-package com.ssos.web.entity;
+package com.ssos.base.entity;
 
 import lombok.Data;
 

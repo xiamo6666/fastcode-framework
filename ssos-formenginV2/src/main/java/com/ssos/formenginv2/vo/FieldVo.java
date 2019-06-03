@@ -12,5 +12,6 @@ import lombok.Data;
 @Data
 public class FieldVo {
     private Long id;
-    private String json;
+    private String fieldName;
+    private String fieldMark;
 }

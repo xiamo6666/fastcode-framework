@@ -1,4 +1,4 @@
-package com.ssos.web.dto;
+package com.ssos.base.dto;
 
 import lombok.Data;
 

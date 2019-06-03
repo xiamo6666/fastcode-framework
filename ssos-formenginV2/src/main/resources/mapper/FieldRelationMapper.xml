@@ -5,4 +5,19 @@
     <select id="findAllTableName" resultType="java.lang.String">
         select table_name from field_relation;
     </select>
+    <select id="findAll" resultType="com.ssos.formenginv2.vo.FieldRelationVo">
+
+        select * from field_relation;
+    </select>
+    <select id="findFieleById" resultType="com.ssos.formenginv2.vo.FieldVo">
+        select f.id, f.field_name, field_mark
+from form_field ff
+    left join field f on ff.field_id = f.id
+where ff.form_id = #{id}
+
+    </select>
+    <select id="findAllFormId" resultType="java.lang.Long">
+
+        select id from field_relation
+    </select>
 </mapper>

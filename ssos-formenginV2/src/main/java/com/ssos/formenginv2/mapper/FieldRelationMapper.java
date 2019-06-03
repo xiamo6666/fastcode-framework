@@ -1,8 +1,11 @@
 package com.ssos.formenginv2.mapper;
 
 import com.ssos.formenginv2.entity.FieldRelation;
+import com.ssos.formenginv2.vo.FieldRelationVo;
+import com.ssos.formenginv2.vo.FieldVo;
 import com.ssos.mybatilsUtils.mapper.BaseMapper;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,4 +23,16 @@ public interface FieldRelationMapper extends BaseMapper<FieldRelation> {
      * @return
      */
     Set<String> findAllTableName();
+
+    /**
+     * 查询所有类容
+     * @return
+     */
+    List<FieldRelationVo> findAll();
+
+
+    List<FieldVo> findFieleById(Long id);
+
+
+    Set<Long> findAllFormId();
 }

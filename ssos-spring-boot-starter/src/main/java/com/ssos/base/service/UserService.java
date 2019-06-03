@@ -1,7 +1,7 @@
-package com.ssos.web.service;
+package com.ssos.base.service;
 
-import com.ssos.web.dto.UserDTO;
-import com.ssos.web.entity.User;
+import com.ssos.base.dto.UserDTO;
+import com.ssos.base.entity.User;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public interface UserService {
     boolean addDate(UserDTO user);
 
-    boolean updateDate(User user);
+    Integer updateDate(User user);
 
     List<User> selectAll(User user);
 

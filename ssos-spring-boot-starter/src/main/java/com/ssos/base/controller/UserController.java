@@ -1,8 +1,8 @@
-package com.ssos.web.controller;
+package com.ssos.base.controller;
 
-import com.ssos.web.dto.UserDTO;
-import com.ssos.web.entity.User;
-import com.ssos.web.service.UserService;
+import com.ssos.base.dto.UserDTO;
+import com.ssos.base.entity.User;
+import com.ssos.base.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;

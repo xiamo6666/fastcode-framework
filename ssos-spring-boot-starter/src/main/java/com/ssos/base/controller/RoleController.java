@@ -1,4 +1,4 @@
-package com.ssos.web.controller;
+package com.ssos.base.controller;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
