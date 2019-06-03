@@ -1,4 +1,4 @@
-package com.ssos.formengine.AutoConfig;
+package com.ssos.formengine.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

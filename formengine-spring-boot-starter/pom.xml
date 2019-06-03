@@ -8,18 +8,27 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>formengine-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
-    <artifactId>ssos-formenginV2</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.ssos.framework</groupId>
-            <artifactId>ssos-spring-boot-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
+        <groupId>com.ssos.framework</groupId>
+        <artifactId>ssos-spring-boot-starter</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <scope>compile</scope>
+    </dependency>
     </dependencies>
+    <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>src/main/resources</directory>
+            </testResource>
+        </testResources>
+    </build>
+
+
 </project>

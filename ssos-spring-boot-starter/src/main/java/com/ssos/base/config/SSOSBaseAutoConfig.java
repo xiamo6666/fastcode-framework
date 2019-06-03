@@ -13,4 +13,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan(value = {"com.ssos.base"})
 public class SSOSBaseAutoConfig {
+
 }
