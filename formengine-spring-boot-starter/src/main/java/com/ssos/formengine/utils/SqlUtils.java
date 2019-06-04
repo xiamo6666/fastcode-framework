@@ -23,6 +23,7 @@ public final class SqlUtils {
     public static final Map<Integer, FieldIdType> sqlType = new HashMap<Integer, FieldIdType>() {{
         put(1, new NumberFieldIdTypeImpl());
         put(2, new InputFieldIdTypeImpl());
+
         put(3, new DateFieldIdTypeImpl());
     }};
 
