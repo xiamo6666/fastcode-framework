@@ -21,9 +21,9 @@ import java.util.function.Supplier;
 public final class SqlUtils {
 
     public static final Map<Integer, FieldIdType> sqlType = new HashMap<Integer, FieldIdType>() {{
-        sqlType.put(1, new NumberFieldIdTypeImpl());
-        sqlType.put(2, new InputFieldIdTypeImpl());
-        sqlType.put(3, new DateFieldIdTypeImpl());
+        put(1, new NumberFieldIdTypeImpl());
+        put(2, new InputFieldIdTypeImpl());
+        put(3, new DateFieldIdTypeImpl());
     }};
 
     public static final String sqlUpdate(FieldVO var) {
