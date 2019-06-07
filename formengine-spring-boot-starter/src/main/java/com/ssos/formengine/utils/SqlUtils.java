@@ -1,7 +1,6 @@
 package com.ssos.formengine.utils;
 
 
-import com.ssos.formengine.entity.Field;
 import com.ssos.formengine.support.FieldIdType;
 import com.ssos.formengine.support.impl.DateFieldIdTypeImpl;
 import com.ssos.formengine.support.impl.InputFieldIdTypeImpl;
@@ -9,7 +8,6 @@ import com.ssos.formengine.support.impl.NumberFieldIdTypeImpl;
 import com.ssos.formengine.vo.FieldVO;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 /**
  * @ClassName: SqlUtils
