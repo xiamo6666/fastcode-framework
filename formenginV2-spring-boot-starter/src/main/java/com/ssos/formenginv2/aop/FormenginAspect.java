@@ -84,6 +84,9 @@ public class FormenginAspect {
         return null;
     }
 
+    /**
+     * 反射缓存
+     */
     private final static class ReflectionCache {
         private static Map<String, ClassInfo> cacheMap = new ConcurrentHashMap<>();
 
