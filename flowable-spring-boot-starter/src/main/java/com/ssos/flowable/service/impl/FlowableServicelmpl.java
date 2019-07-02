@@ -27,7 +27,7 @@ import java.util.Map;
  * @Date: 2019-04-24 12:07
  * @Vsersion: 1.0
  */
-//@Service
+@Service
 public class FlowableServicelmpl implements FlowableService {
     @Autowired
     private RuntimeService runtimeService;

@@ -1,6 +1,8 @@
 package com.ssos.flowable.modeler.conf;
 
 import liquibase.integration.spring.SpringLiquibase;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
@@ -12,9 +14,9 @@ import javax.sql.DataSource;
  * @Date: 2019-04-26 17:34
  * @Vsersion: 1.0
  */
-//@Configuration
+@Configuration
 public class LiquibaseConfig {
-   // @Bean
+    @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(dataSource);
