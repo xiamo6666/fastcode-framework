@@ -1,6 +1,6 @@
-package com.ssos.mybatilsUtils.mapper;
+package com.ssos.mybatilspro.mapper;
 
-import com.ssos.mybatilsUtils.provider.MapperProvider;
+import com.ssos.mybatilspro.provider.MapperProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.transaction.annotation.Transactional;
 

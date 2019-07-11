@@ -1,4 +1,4 @@
-package com.ssos.mybatilsUtils;
+package com.ssos.mybatilspro;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Configuration;
  * @Vsersion: 1.0
  */
 @Configuration
-@ComponentScan(value = "com.ssos.mybatilsUtils.mapper")
+@ComponentScan(value = "com.ssos.mybatilspro.mapper")
 public class MybatisUtilsAutoConfig {
 }

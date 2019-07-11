@@ -1,4 +1,4 @@
-package com.ssos.mybatilsUtils.provider;
+package com.ssos.mybatilspro.provider;
 
 import org.springframework.util.Assert;
 

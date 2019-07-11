@@ -4,7 +4,7 @@ import com.ssos.formenginv2.entity.FieldRelation;
 import com.ssos.formenginv2.vo.FieldInfoVo;
 import com.ssos.formenginv2.vo.FieldRelationVo;
 import com.ssos.formenginv2.vo.FieldVo;
-import com.ssos.mybatilsUtils.mapper.BaseMapper;
+import com.ssos.mybatilspro.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

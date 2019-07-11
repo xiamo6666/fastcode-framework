@@ -2,8 +2,7 @@ package com.ssos.base.mapper;
 
 
 import com.ssos.base.entity.User;
-import com.ssos.mybatilsUtils.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
+import com.ssos.mybatilspro.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 

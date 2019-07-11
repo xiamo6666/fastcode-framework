@@ -2,12 +2,11 @@ package com.ssos.formengine.mapper;
 
 import com.ssos.formengine.entity.Field;
 import com.ssos.formengine.vo.FieldVO;
-import com.ssos.mybatilsUtils.mapper.BaseMapper;
+import com.ssos.mybatilspro.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @ClassName: FieldMapper

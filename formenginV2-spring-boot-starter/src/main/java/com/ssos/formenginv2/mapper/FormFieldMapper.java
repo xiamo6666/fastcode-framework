@@ -1,7 +1,7 @@
 package com.ssos.formenginv2.mapper;
 
 import com.ssos.formenginv2.entity.FormField;
-import com.ssos.mybatilsUtils.mapper.BaseMapper;
+import com.ssos.mybatilspro.mapper.BaseMapper;
 
 import java.util.Set;
 

@@ -10,5 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SsosApplication {
     public static void main(String[] args) {
         SpringApplication.run(SsosApplication.class, args);
+
+
     }
 }

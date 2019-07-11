@@ -1,4 +1,4 @@
-package com.ssos.mybatilsUtils.provider;
+package com.ssos.mybatilspro.provider;
 
 import org.apache.ibatis.builder.annotation.ProviderContext;
 import org.apache.ibatis.jdbc.SQL;

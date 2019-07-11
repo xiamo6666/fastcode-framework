@@ -3,7 +3,7 @@ package com.ssos.formengine.mapper;
 import com.ssos.formengine.entity.FieldAssociate;
 import com.ssos.formengine.vo.FieldVO;
 import com.ssos.formengine.vo.SysDefinitionVO;
-import com.ssos.mybatilsUtils.mapper.BaseMapper;
+import com.ssos.mybatilspro.mapper.BaseMapper;
 
 import java.util.List;
 import java.util.Set;
