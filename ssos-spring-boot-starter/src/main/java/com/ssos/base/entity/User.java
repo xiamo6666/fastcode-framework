@@ -42,6 +42,23 @@ public class User implements Serializable {
      */
     private Date createTime;
 
+    private String region;
+
+    /**
+     * 名称
+     */
+    private String name;
+
+    /**
+     * 账户状态
+     */
+    private Integer state;
+
+    /**
+     * 是否删除
+     */
+    private Integer isDelete;
+
     public User(String username, String password, String salt) {
         this.username = username;
         this.password = password;

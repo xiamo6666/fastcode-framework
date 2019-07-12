@@ -1,6 +1,6 @@
 package com.ssos.base.exception;
 
-import com.ssos.base.model.DataResult;
+import com.ssos.base.model.DateResult;
 import com.ssos.exception.BaseException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler({BindException.class})
-    public DataResult handlderBinException(BindException e){
+    public DateResult handlderBinException(BindException e){
         List<ObjectError> allErrors = e.getBindingResult().getAllErrors();
         List<String> list = new ArrayList<>();
        for(ObjectError objectError:allErrors){
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
            String message = objectError.getDefaultMessage();
            list.add(field+":"+message);
        }
-       return DataResult.ok(list);
+       return DateResult.ok(list);
     }
 
     /**
@@ -49,8 +49,8 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler({BaseException.class})
-    public DataResult handlerBaseException(BaseException e){
-        return DataResult.error(e.getMessage());
+    public DateResult handlerBaseException(BaseException e){
+        return DateResult.error(e.getMessage());
     }
 
     /**
@@ -59,8 +59,8 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler({AuthorizationException.class})
-    public DataResult handlerAuthorizationException(AuthorizationException e){
-        return DataResult.error("你没有权限进行该操作");
+    public DateResult handlerAuthorizationException(AuthorizationException e){
+        return DateResult.error("你没有权限进行该操作");
     }
 
     /**
@@ -69,11 +69,11 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
-    public DataResult handlerHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e){
-        return DataResult.error(e.getMessage());
+    public DateResult handlerHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e){
+        return DateResult.error(e.getMessage());
     }
     @ExceptionHandler(NullPointerException.class)
-    public DataResult NullPointerException(NullPointerException e){
-        return DataResult.error("空指针异常，请联系管理员");
+    public DateResult NullPointerException(NullPointerException e){
+        return DateResult.error("空指针异常，请联系管理员");
     }
 }

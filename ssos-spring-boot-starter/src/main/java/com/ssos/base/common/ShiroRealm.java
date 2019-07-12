@@ -29,22 +29,16 @@ public class ShiroRealm extends AuthorizingRealm {
 
 
     @Override
-    public boolean supports(AuthenticationToken token) {
-
-        return token != null && (token instanceof JwtToken);
-    }
-
-    @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String token = (String) principalCollection.getPrimaryPrincipal();
         Claims claims = JwtUtils.parseToken(token);
         List<String> permissions = (List) claims.get("permissions");
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        if (permissions == null && permissions.size() == 0){
+        if (permissions == null && permissions.size() == 0) {
             throw new BaseException("授权失败,请重新登入获取权限");
         }
         permissions.stream().forEach(
-                e->simpleAuthorizationInfo.addStringPermission(e)
+                e -> simpleAuthorizationInfo.addStringPermission(e)
         );
         return simpleAuthorizationInfo;
     }
@@ -52,18 +46,21 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
             throws AuthenticationException {
-        JwtToken jwtToken = (JwtToken) authenticationToken;
+        UsernamePasswordToken jwtToken = (UsernamePasswordToken) authenticationToken;
         User user = new User();
         user.setUsername(jwtToken.getUsername());
         List<User> select = userMapper.select(user);
-        if (select == null ){
+        if (select == null) {
             throw new UnknownAccountException();
         }
-        if (select.size() == 0){
+        if (select.size() == 0) {
             throw new UnknownAccountException();
+        }
+        if (select.get(0).getState() != 0) {
+            throw new BaseException("账号已禁用，请联系管理员");
         }
 
         User resourceUser = select.get(0);
-        return new SimpleAuthenticationInfo(resourceUser,resourceUser.getPassword(), ByteSource.Util.bytes(resourceUser.getSalt()),getName());
+        return new SimpleAuthenticationInfo(resourceUser, resourceUser.getPassword(), ByteSource.Util.bytes(resourceUser.getSalt()), getName());
     }
 }

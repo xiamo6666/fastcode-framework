@@ -1,6 +1,7 @@
 package com.ssos.base.service;
 
 import com.ssos.base.dto.UserDTO;
+import com.ssos.base.dto.UserLoginDTO;
 import com.ssos.base.entity.User;
 
 import java.util.List;
@@ -19,6 +20,6 @@ public interface UserService {
 
     List<User> selectAll(User user);
 
-    String login(String loginToken);
+    String login(UserLoginDTO userLoginDTO);
 
 }

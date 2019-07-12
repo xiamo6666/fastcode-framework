@@ -1,6 +1,6 @@
 package com.ssos.base.controller;
 
-import com.ssos.base.model.DataResult;
+import com.ssos.base.model.DateResult;
 import com.ssos.base.utils.UserUtils;
 import com.ssos.base.vo.UserVO;
 import io.swagger.annotations.Api;
@@ -20,15 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "基本")
 public class HomeCotroller {
     @GetMapping("/login")
-    public DataResult login(){
-        return DataResult.error("Token验证已过期");
+    public DateResult login(){
+        return DateResult.error("Token验证已过期");
     }
 
     @GetMapping("/getUserInfo")
     @ApiOperation("获取当前登入用户的基本信息")
-    public DataResult<UserVO> getUserInfo(){
+    public DateResult<UserVO> getUserInfo(){
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(UserUtils.getUser(),userVO);
-        return DataResult.ok(userVO);
+        return DateResult.ok(userVO);
     }
 }
