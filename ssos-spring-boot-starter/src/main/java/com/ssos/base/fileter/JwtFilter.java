@@ -20,16 +20,21 @@ import java.io.IOException;
  * @Date: 2018-12-25 13:19
  * @Vsersion: 1.0
  */
-public class JwtFilter  extends BasicHttpAuthenticationFilter {
+public class JwtFilter extends BasicHttpAuthenticationFilter {
     private static final Logger log = LoggerFactory.getLogger(JwtFilter.class);
+
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        if(httpServletRequest.getServletPath().equalsIgnoreCase("/favicon.ico")){
+        if (httpServletRequest.getServletPath().equalsIgnoreCase("/favicon.ico")) {
+            return true;
+        }
+        String method = httpServletRequest.getMethod();
+        if ("OPTIONS".equalsIgnoreCase(method)) {
             return true;
         }
         String authorization = httpServletRequest.getHeader("authorization");
-        if (authorization == null){
+        if (authorization == null) {
             try {
                 ((HttpServletResponse) response).sendRedirect(super.getLoginUrl());
                 log.debug("token不存在");
@@ -39,7 +44,7 @@ public class JwtFilter  extends BasicHttpAuthenticationFilter {
             }
         }
         Claims claims = JwtUtils.parseToken(authorization);
-        if (claims == null){
+        if (claims == null) {
             try {
                 ((HttpServletResponse) response).sendRedirect(super.getLoginUrl());
             } catch (IOException e) {

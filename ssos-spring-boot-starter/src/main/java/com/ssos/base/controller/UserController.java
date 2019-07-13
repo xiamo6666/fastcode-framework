@@ -3,18 +3,16 @@ package com.ssos.base.controller;
 import com.ssos.base.dto.UserDTO;
 import com.ssos.base.dto.UserLoginDTO;
 import com.ssos.base.entity.User;
-import com.ssos.base.model.DateResult;
+import com.ssos.base.model.DataResult;
 import com.ssos.base.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 /**
  * @ClassName: UserController
@@ -32,9 +30,9 @@ public class UserController {
 
     @PostMapping("/register")
     @ApiOperation("注册")
-    public DateResult register(@RequestBody @Valid UserDTO user) {
+    public DataResult register(@RequestBody @Valid UserDTO user) {
         userService.addDate(user);
-        return DateResult.ok("添加成功");
+        return DataResult.ok("添加成功");
     }
 
     @GetMapping("/update")
@@ -54,8 +52,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public DateResult login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
-        return DateResult.ok(userService.login(userLoginDTO));
+    public DataResult login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
+        return DataResult.ok(userService.login(userLoginDTO));
     }
 
 

@@ -36,6 +36,10 @@ public class PageRequest implements Serializable {
 
     }
 
+    public int getOffset() {
+        return (this.pageNum - 1) * this.pageSize;
+    }
+
     public void setPageSize(int pageSize) {
         if (pageSize < 1) {
             this.pageSize = 10;

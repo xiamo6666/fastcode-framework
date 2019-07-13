@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.*;
  * @Vsersion: 1.0
  */
 @Configuration
-//@EnableWebMvc
+@EnableWebMvc
 public class CorsConfig implements WebMvcConfigurer {
 
 
@@ -29,17 +29,20 @@ public class CorsConfig implements WebMvcConfigurer {
                 //跨域允许时间
                 .maxAge(36000);
     }
+
     @Bean
-    LocalInterceptor localInterceptor(){
+    LocalInterceptor localInterceptor() {
         return new LocalInterceptor();
     }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user/login")
-                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**","/model.html/**");
+                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**", "/model.html/**");
     }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")
