@@ -4,15 +4,15 @@ import com.ssos.base.dto.UserDTO;
 import com.ssos.base.dto.UserLoginDTO;
 import com.ssos.base.entity.User;
 import com.ssos.base.model.DataResult;
+import com.ssos.base.model.PageRequest;
 import com.ssos.base.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @ClassName: UserController
@@ -32,7 +32,7 @@ public class UserController {
     @ApiOperation("注册")
     public DataResult register(@RequestBody @Valid UserDTO user) {
         userService.addDate(user);
-        return DataResult.ok("添加成功");
+        return DataResult.ok("注册成功");
     }
 
     @GetMapping("/update")
@@ -42,13 +42,10 @@ public class UserController {
         return userService.updateDate(user);
     }
 
-    @GetMapping("/select")
-    public Object select() {
-        User user = new User();
-        user.setId(5L);
-        Subject subject = SecurityUtils.getSubject();
-        System.out.println(subject.getSession());
-        return userService.selectAll(user);
+    @GetMapping("/find")
+    public DataResult<List<User>> select(PageRequest pageRequest) {
+        List<User> users = userService.selectAll(new User());
+        return DataResult.ok(users);
     }
 
     @PostMapping("/login")

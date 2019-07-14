@@ -38,14 +38,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean addDate(UserDTO users) {
-        User user = new User();
-        BeanUtils.copyProperties(users, user);
         String salt = passwordUtils.getSalt();
-        String passwrd = passwordUtils.getPasswordEncryption(users.getPassword(), salt);
-        user.setPassword(passwrd);
-        user.setSalt(salt);
-        user.setIsDelete(0);
-        user.setState(0);
+        String password = passwordUtils.getPasswordEncryption(users.getPassword(), salt);
+        User user = User.builder().password(password).salt(salt).isDelete(0).state(0).build();
+        BeanUtils.copyProperties(users, user);
         return userMapper.insert(user);
     }
 

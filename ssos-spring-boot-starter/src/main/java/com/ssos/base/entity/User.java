@@ -1,5 +1,6 @@
 package com.ssos.base.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.Date;
  * @Vsersion: 1.0
  */
 @Data
+@Builder
 @NoArgsConstructor
 public class User implements Serializable {
     private static final long serialVersionUID = -754667710L;

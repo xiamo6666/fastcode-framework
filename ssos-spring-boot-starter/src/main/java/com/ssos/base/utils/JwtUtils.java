@@ -1,10 +1,16 @@
 package com.ssos.base.utils;
 
+import com.ssos.base.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -17,7 +23,21 @@ import java.util.Map;
  * @Date: 2018-12-24 15:57
  * @Vsersion: 1.0
  */
+@Configuration
+@EnableConfigurationProperties(JwtProperties.class)
 public class JwtUtils {
+
+    @Autowired
+    private JwtProperties jwtProperties;
+
+    private static long expireTime;
+
+    @PostConstruct
+    private void init() {
+        JwtUtils.expireTime = this.jwtProperties.getExpireTime();
+    }
+
+
     private static final String SECUREKEY = "dkfdfghjkljfld@%^&*()(*&^%$#ksjflj?....,/sldj@#$%^&*(f@#$%^&*sd#$%^&*/ijfow@#$%^&*in";
 
     /**
@@ -27,7 +47,7 @@ public class JwtUtils {
         Claims claims = new DefaultClaims();
         claims.setIssuer("SSOS Service");
         claims.setSubject("user");
-        claims.setExpiration(Date.from(LocalDateTime.now().plusMinutes(30).atZone(ZoneId.systemDefault()).toInstant()));
+        claims.setExpiration(Date.from(LocalDateTime.now().plusMinutes(expireTime).atZone(ZoneId.systemDefault()).toInstant()));
         claims.putAll(map);
         return Jwts.builder()
                 .setClaims(claims)
@@ -37,6 +57,7 @@ public class JwtUtils {
 
     /**
      * 解析token
+     *
      * @param token
      * @return
      */
@@ -52,10 +73,11 @@ public class JwtUtils {
         }
         return claims;
     }
-    public static boolean isExpire(Claims claims){
-        if (claims.getExpiration().before(new Date())){
+
+    public boolean isExpire(Claims claims) {
+        if (claims.getExpiration().before(new Date())) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
