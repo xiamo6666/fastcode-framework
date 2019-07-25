@@ -1,4 +1,4 @@
-package com.ssos.base.utils;
+package com.ssos.fastdfs.client;
 
 import com.luhuiguo.fastdfs.domain.StorePath;
 import com.luhuiguo.fastdfs.service.FastFileStorageClient;

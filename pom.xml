@@ -17,6 +17,7 @@
         <module>formenginV2-spring-boot-starter</module>
         <module>ssos-eureka</module>
         <module>ssos-client</module>
+        <module>fastDFS-spring-boot-starter</module>
 
     </modules>
     <packaging>pom</packaging>
