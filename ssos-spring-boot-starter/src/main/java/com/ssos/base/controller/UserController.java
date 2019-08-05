@@ -37,9 +37,10 @@ public class UserController {
 
     @GetMapping("/update")
     public Object update() {
-        User user = new User("xxx", "xxx", "xxx");
-        user.setId(20L);
-        return userService.updateDate(user);
+//        User user = new User("xxx", "xxx", "xxx");
+//        user.setId(20L);
+      //  return userService.updateDate(user);
+        return null;
     }
 
     @GetMapping("/find")

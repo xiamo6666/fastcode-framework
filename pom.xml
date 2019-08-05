@@ -6,7 +6,7 @@
 
     <groupId>com.ssos.framework</groupId>
     <artifactId>ssos-framework</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-RELEASE</version>
     <modules>
         <module>ssos-web</module>
         <module>flowable-spring-boot-starter</module>
@@ -15,8 +15,6 @@
         <module>ssos-exception</module>
         <module>ssos-spring-boot-starter</module>
         <module>formenginV2-spring-boot-starter</module>
-        <module>ssos-eureka</module>
-        <module>ssos-client</module>
         <module>fastDFS-spring-boot-starter</module>
 
     </modules>
@@ -31,17 +29,6 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
     </properties>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -49,28 +36,17 @@
             <version>1.18.6</version>
             <scope>provided</scope>
         </dependency>
-        <!--swagger-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>maven-repo</id>
+            <url>https://raw.github.com/xiamo6666/maven-repo/master</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
@@ -84,6 +60,7 @@
                 </configuration>
             </plugin>
         </plugins>
+
     </build>
 
 </project>
