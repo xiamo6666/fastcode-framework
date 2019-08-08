@@ -1,6 +1,7 @@
 package com.ssos.fastdfs.utils;
 
 import com.ssos.fastdfs.model.FileBasic;
+import org.springframework.util.Assert;
 
 /**
  * @ClassName: FileNameUtils
@@ -17,6 +18,7 @@ public final class FileNameUtils {
      * @return
      */
     public static final FileBasic extract(String originalFilename) {
+        Assert.notNull(originalFilename,"参数不能为空");
         String type = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         String name = originalFilename.substring(0, originalFilename.lastIndexOf("."));
         return FileBasic.builder().name(name).type(type).build();

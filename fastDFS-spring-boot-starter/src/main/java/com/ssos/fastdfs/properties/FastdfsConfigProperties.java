@@ -13,5 +13,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "fdfs.client")
 public class FastdfsConfigProperties {
+    /**
+     * 访问地址
+     */
     private String access;
+    /**
+     * 文件上传超时时间
+     */
+    private Integer fileUploadTimeout = 5;
 }
