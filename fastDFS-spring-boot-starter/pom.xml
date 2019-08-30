@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>fastDFS-spring-boot-starter</artifactId>
+    <version>1.0.1-RELEASE</version>
     <dependencies>
         <!--fast-->
         <dependency>
@@ -31,27 +32,38 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--            <id>maven-releases</id>-->
-<!--            <name>maven-releases</name>-->
-<!--            <url>http://t.uavebit.com:9092/repository/maven-public/</url>-->
-<!--        </repository>-->
-<!--    </distributionManagement>-->
+    <distributionManagement>
+        <repository>
+            <id>maven-releases</id>
+            <name>maven-releases</name>
+            <url>http://t.uavebit.com:9092/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
     <properties>
         <github.global.server>github</github.global.server>
     </properties>
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.0.0-M1</version>
-                <configuration>
-                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/repository
-                    </altDeploymentRepository>
-                </configuration>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <artifactId>maven-deploy-plugin</artifactId>-->
+            <!--                <version>3.0.0-M1</version>-->
+            <!--                <configuration>-->
+            <!--                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/repository-->
+            <!--                    </altDeploymentRepository>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
             <!--源码-->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
@@ -65,37 +77,37 @@
                     </execution>
                 </executions>
             </plugin>
-<!--            github上传插件,用于修改后的发布,执行 mvn clean deploy 自动打包上传到github-->
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>0.12</version>
-                <configuration>
-                    <message>Maven artifacts for ${project.version}</message>
-                    <noJekyll>true</noJekyll>
-                    <!--本地jar地址-->
-                    <outputDirectory>${project.build.directory}/repository</outputDirectory>
-                    <!--分支-->
-                    <branch>refs/heads/master</branch>
-                    <merge>true</merge>
+            <!--            github上传插件,用于修改后的发布,执行 mvn clean deploy 自动打包上传到github-->
+            <!--            <plugin>-->
+            <!--                <groupId>com.github.github</groupId>-->
+            <!--                <artifactId>site-maven-plugin</artifactId>-->
+            <!--                <version>0.12</version>-->
+            <!--                <configuration>-->
+            <!--                    <message>Maven artifacts for ${project.version}</message>-->
+            <!--                    <noJekyll>true</noJekyll>-->
+            <!--                    &lt;!&ndash;本地jar地址&ndash;&gt;-->
+            <!--                    <outputDirectory>${project.build.directory}/repository</outputDirectory>-->
+            <!--                    &lt;!&ndash;分支&ndash;&gt;-->
+            <!--                    <branch>refs/heads/master</branch>-->
+            <!--                    <merge>true</merge>-->
 
-                    <includes>
-                        <include>**/*</include>
-                    </includes>
-                    <!--对应github上创建的仓库名称 name-->
-                    <repositoryName>maven-repo</repositoryName>
-                    <!--github 仓库所有者 不是账号-->
-                    <repositoryOwner>xiamo6666</repositoryOwner>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--                    <includes>-->
+            <!--                        <include>**/*</include>-->
+            <!--                    </includes>-->
+            <!--                    &lt;!&ndash;对应github上创建的仓库名称 name&ndash;&gt;-->
+            <!--                    <repositoryName>maven-repo</repositoryName>-->
+            <!--                    &lt;!&ndash;github 仓库所有者 不是账号&ndash;&gt;-->
+            <!--                    <repositoryOwner>xiamo6666</repositoryOwner>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <goals>-->
+            <!--                            <goal>site</goal>-->
+            <!--                        </goals>-->
+            <!--                        <phase>deploy</phase>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
 </project>

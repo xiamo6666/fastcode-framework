@@ -16,7 +16,7 @@ public class FastdfsConfigProperties {
     /**
      * 访问地址
      */
-    private String access;
+    private String access = "http://t.uavebit.com";
     /**
      * 文件上传超时时间
      */

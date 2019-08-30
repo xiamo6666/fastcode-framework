@@ -16,6 +16,7 @@
         <module>ssos-spring-boot-starter</module>
         <module>formenginV2-spring-boot-starter</module>
         <module>fastDFS-spring-boot-starter</module>
+        <module>ssos-utils</module>
 
     </modules>
     <packaging>pom</packaging>
@@ -48,6 +49,13 @@
         </repository>
     </repositories>
 
+    <distributionManagement>
+        <repository>
+            <id>maven-releases</id>
+            <name>maven-releases</name>
+            <url>http://t.uavebit.com:9092/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
     <build>
         <plugins>
             <plugin>
