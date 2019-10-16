@@ -2,6 +2,7 @@ package com.ssos.fastdfs.controller;
 
 import com.ssos.fastdfs.client.FastDfsClient;
 import com.ssos.fastdfs.model.FileBasic;
+import com.ssos.fastdfs.model.FileImagePath;
 import com.ssos.fastdfs.properties.FastdfsConfigProperties;
 import com.ssos.fastdfs.utils.FileNameUtils;
 import io.swagger.annotations.Api;
@@ -29,6 +30,7 @@ public class UploadFileController {
 
     @Autowired
     private FastDfsClient fastDfsClient;
+
     @Autowired
     private FastdfsConfigProperties configProperties;
 
@@ -38,9 +40,24 @@ public class UploadFileController {
         String originalFilename = file.getOriginalFilename();
         FileBasic extract = FileNameUtils.extract(originalFilename);
         try {
-            String url = fastDfsClient.uploadFile(file.getBytes(), extract.getType())
-                    .get(configProperties.getFileUploadTimeout(), TimeUnit.MINUTES).getFullPath() + configProperties.getAccess();
+            String url = configProperties.getAccess() + fastDfsClient.uploadFile(file, extract.getType())
+                    .get(1, TimeUnit.MINUTES);
             return url;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @PostMapping("/uploadImage")
+    @ApiOperation("图片上传")
+    public FileImagePath uploadImage(@ApiParam("文件") MultipartFile file) {
+        String originalFilename = file.getOriginalFilename();
+        FileBasic extract = FileNameUtils.extract(originalFilename);
+        try {
+            FileImagePath fileImagePath = fastDfsClient
+                    .uploadImage(file, extract.getType())
+                    .get(1, TimeUnit.MINUTES);
+            return fileImagePath;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

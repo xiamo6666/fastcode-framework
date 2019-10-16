@@ -1,15 +1,19 @@
 package com.ssos.fastdfs.client;
 
-import com.luhuiguo.fastdfs.service.GenerateStorageClient;
+import com.github.tobato.fastdfs.service.DefaultGenerateStorageClient;
+import com.github.tobato.fastdfs.service.GenerateStorageClient;
 import com.ssos.fastdfs.properties.FastdfsConfigProperties;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
 import java.util.Map;
@@ -27,7 +31,8 @@ import java.util.WeakHashMap;
 @EnableConfigurationProperties(FastdfsConfigProperties.class)
 public class DownloadFile {
     @Autowired
-    private GenerateStorageClient storageClient;
+    @Qualifier("defaultGenerateStorageClient")
+    private DefaultGenerateStorageClient storageClient;
 
     @Autowired
     private FastdfsConfigProperties configProperties;
@@ -42,8 +47,10 @@ public class DownloadFile {
     public String decryptBase64(String fullName) {
         PicInfo picInfo = getPicInfo(fullName);
         if (!FileCache.isCache(picInfo.getPath())) {
-            byte[] bytes = storageClient.downloadFile(picInfo.getGroupName(), picInfo.getPath());
-            FileCache.addCache(picInfo.getPath(), bytes);
+            byte[] bytes = storageClient.downloadFile(picInfo.getGroupName(), picInfo.getPath(), DownloadFile::input2byte);
+            if (configProperties.isCache()) {
+                FileCache.addCache(picInfo.getPath(), bytes);
+            }
         }
         byte[] bytes = FileCache.getCache(picInfo.getPath());
         return caseStream(bytes, picInfo.getType());
@@ -58,13 +65,27 @@ public class DownloadFile {
     public InputStream decryptInputStream(String fullName) {
         PicInfo picInfo = getPicInfo(fullName);
         if (!FileCache.isCache(picInfo.getPath())) {
-            byte[] bytes = storageClient.downloadFile(picInfo.getGroupName(), picInfo.getPath());
+            byte[] bytes = storageClient.downloadFile(picInfo.getGroupName(), picInfo.getPath(), DownloadFile::input2byte);
             log.debug("[{}]文件下载成功", fullName);
-            FileCache.addCache(picInfo.getPath(), bytes);
+            if (configProperties.isCache()) {
+                FileCache.addCache(picInfo.getPath(), bytes);
+            }
         }
         byte[] bytes = FileCache.getCache(picInfo.getPath());
         return new ByteArrayInputStream(bytes);
 
+    }
+
+    public static final byte[] input2byte(InputStream inStream)
+            throws IOException {
+        ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+        byte[] buff = new byte[2048 * 2];
+        int rc = 0;
+        while ((rc = inStream.read(buff, 0, buff.length)) > 0) {
+            swapStream.write(buff, 0, rc);
+        }
+        byte[] in2b = swapStream.toByteArray();
+        return in2b;
     }
 
     /**

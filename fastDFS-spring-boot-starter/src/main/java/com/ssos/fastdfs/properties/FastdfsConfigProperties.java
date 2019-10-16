@@ -18,7 +18,7 @@ public class FastdfsConfigProperties {
      */
     private String access = "http://t.uavebit.com";
     /**
-     * 文件上传超时时间
+     * 加入缓存
      */
-    private Integer fileUploadTimeout = 5;
+    private boolean isCache = false;
 }
