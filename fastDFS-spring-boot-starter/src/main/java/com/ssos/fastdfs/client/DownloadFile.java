@@ -44,16 +44,14 @@ public class DownloadFile {
      * @param fullName
      * @return
      */
-    public String decryptBase64(String fullName) {
+    public String decryptBase64(String fullName,boolean prefix) {
         PicInfo picInfo = getPicInfo(fullName);
         if (!FileCache.isCache(picInfo.getPath())) {
             byte[] bytes = storageClient.downloadFile(picInfo.getGroupName(), picInfo.getPath(), DownloadFile::input2byte);
-            if (configProperties.isCache()) {
-                FileCache.addCache(picInfo.getPath(), bytes);
-            }
+            FileCache.addCache(picInfo.getPath(), bytes);
         }
         byte[] bytes = FileCache.getCache(picInfo.getPath());
-        return caseStream(bytes, picInfo.getType());
+        return caseStream(bytes, picInfo.getType(),prefix);
     }
 
     /**
@@ -67,9 +65,7 @@ public class DownloadFile {
         if (!FileCache.isCache(picInfo.getPath())) {
             byte[] bytes = storageClient.downloadFile(picInfo.getGroupName(), picInfo.getPath(), DownloadFile::input2byte);
             log.debug("[{}]文件下载成功", fullName);
-            if (configProperties.isCache()) {
-                FileCache.addCache(picInfo.getPath(), bytes);
-            }
+            FileCache.addCache(picInfo.getPath(), bytes);
         }
         byte[] bytes = FileCache.getCache(picInfo.getPath());
         return new ByteArrayInputStream(bytes);
@@ -106,11 +102,14 @@ public class DownloadFile {
      * @param picType 文件类型
      * @return
      */
-    private String caseStream(byte[] bytes, String picType) {
+    private String caseStream(byte[] bytes, String picType,boolean prefix) {
+
         StringBuilder picBase64 = new StringBuilder();
-        picBase64.append("data:image/");
-        picBase64.append(picType);
-        picBase64.append(";base64,");
+        if (prefix) {
+            picBase64.append("data:image/");
+            picBase64.append(picType);
+            picBase64.append(";base64,");
+        }
         String base64 = Base64.getEncoder().encodeToString(bytes);
         return picBase64.append(base64).toString();
     }

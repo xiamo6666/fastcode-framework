@@ -17,8 +17,5 @@ public class FastdfsConfigProperties {
      * 访问地址
      */
     private String access = "http://t.uavebit.com";
-    /**
-     * 加入缓存
-     */
-    private boolean isCache = false;
+
 }

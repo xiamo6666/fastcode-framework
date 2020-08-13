@@ -38,24 +38,24 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>maven-repo</id>
-            <url>https://raw.github.com/xiamo6666/maven-repo/master</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>maven-repo</id>-->
+<!--            <url>https://raw.github.com/xiamo6666/maven-repo/master</url>-->
+<!--            <snapshots>-->
+<!--                <enabled>true</enabled>-->
+<!--                <updatePolicy>always</updatePolicy>-->
+<!--            </snapshots>-->
+<!--        </repository>-->
+<!--    </repositories>-->
 
-    <distributionManagement>
-        <repository>
-            <id>maven-releases</id>
-            <name>maven-releases</name>
-            <url>http://t.uavebit.com:9092/repository/maven-releases/</url>
-        </repository>
-    </distributionManagement>
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>maven-releases</id>-->
+<!--            <name>maven-releases</name>-->
+<!--            <url>http://t.uavebit.com:9092/repository/maven-releases/</url>-->
+<!--        </repository>-->
+<!--    </distributionManagement>-->
     <build>
         <plugins>
             <plugin>
