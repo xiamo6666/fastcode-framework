@@ -1,0 +1,29 @@
+server:
+  port: 1019
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+spring:
+  datasource:
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://127.0.0.1:3306/ebit_eaip?characterEncoding=utf8&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+web:
+  swagger:
+    enable: true  #swagger 打开
+  shiro:
+    filter-chain:
+      /login: anon
+      /user/login: anon
+      /swagger/**: anon
+      /webjars/**: anon
+      /swagger-resources/**: anon
+      /swagger**: anonn
+      /v2/**: anon
+      /**: anon
+    jwt-enable: false   #tonken 关闭
+
