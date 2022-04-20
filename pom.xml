@@ -4,71 +4,80 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ssos.framework</groupId>
-    <artifactId>ssos-framework</artifactId>
+    <groupId>com.fastcode</groupId>
+    <artifactId>fastcode-parent</artifactId>
     <version>1.0-RELEASE</version>
+    <packaging>pom</packaging>
     <modules>
-        <module>ssos-web</module>
-        <module>flowable-spring-boot-starter</module>
-        <module>ssos-mybatispro</module>
-        <module>formengine-spring-boot-starter</module>
-        <module>ssos-exception</module>
-        <module>ssos-spring-boot-starter</module>
-        <module>formenginV2-spring-boot-starter</module>
-        <module>fastDFS-spring-boot-starter</module>
-        <module>ssos-utils</module>
+        <!--        <module>ssos-web</module>-->
+        <!--        <module>flowable-spring-boot-starter</module>-->
+        <!--        <module>ssos-mybatispro</module>-->
+        <!--        <module>formengine-spring-boot-starter</module>-->
+        <!--        <module>ssos-exception</module>-->
+        <!--        <module>ssos-spring-boot-starter</module>-->
+        <!--        <module>formenginV2-spring-boot-starter</module>-->
+        <!--        <module>fastDFS-spring-boot-starter</module>-->
+        <!--        <module>ssos-utils</module>-->
+        <module>fc-core</module>
+        <module>fc-system</module>
 
     </modules>
-    <packaging>pom</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.6.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>2.6.6</version>
+
     </parent>
     <properties>
-        <java.version>1.8</java.version>
-        <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+        <java.version>17</java.version>
+        <springcloud.version>2021.0.1</springcloud.version>
+        <springboot.version>2.6.6</springboot.version>
+        <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${springcloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${springboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.6</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>maven-repo</id>-->
-<!--            <url>https://raw.github.com/xiamo6666/maven-repo/master</url>-->
-<!--            <snapshots>-->
-<!--                <enabled>true</enabled>-->
-<!--                <updatePolicy>always</updatePolicy>-->
-<!--            </snapshots>-->
-<!--        </repository>-->
-<!--    </repositories>-->
+    <!--    <repositories>-->
+    <!--        <repository>-->
+    <!--            <id>maven-repo</id>-->
+    <!--            <url>https://raw.github.com/xiamo6666/maven-repo/master</url>-->
+    <!--            <snapshots>-->
+    <!--                <enabled>true</enabled>-->
+    <!--                <updatePolicy>always</updatePolicy>-->
+    <!--            </snapshots>-->
+    <!--        </repository>-->
+    <!--    </repositories>-->
 
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--            <id>maven-releases</id>-->
-<!--            <name>maven-releases</name>-->
-<!--            <url>http://t.uavebit.com:9092/repository/maven-releases/</url>-->
-<!--        </repository>-->
-<!--    </distributionManagement>-->
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
+    <!--    <distributionManagement>-->
+    <!--        <repository>-->
+    <!--            <id>maven-releases</id>-->
+    <!--            <name>maven-releases</name>-->
+    <!--            <url>http://t.uavebit.com:9092/repository/maven-releases/</url>-->
+    <!--        </repository>-->
+    <!--    </distributionManagement>-->
 
-    </build>
 
 </project>
