@@ -17,9 +17,17 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>fc-core</artifactId>
+            <groupId>com.fastcode</groupId>
+            <version>1.0-RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>7.1.1</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>

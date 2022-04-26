@@ -1,0 +1,26 @@
+//定义全局版本依赖
+buildscript {
+    ext {
+        springBootVersion = '2.6.6'
+    }
+}
+
+
+//全部项目设置
+allprojects {
+    group 'com.fc'
+    version '1.0-SNAPSHOT'
+    apply plugin: 'java-library'
+    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_17
+    repositories {
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+    }
+    dependencies {
+        api platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+        implementation('net.logstash.logback:logstash-logback-encoder:7.1.1')
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    }
+
+}

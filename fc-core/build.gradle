@@ -1,0 +1,4 @@
+dependencies {
+    api project(":fc-api")
+    api 'org.springframework.boot:spring-boot-starter-web'
+}
