@@ -6,6 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @ClassName: Result
+ * @Description: 数据返回对象
+ * @Author: xwl
+ * @Date: 2022/5/5 15:41
+ * @Vsersion: 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

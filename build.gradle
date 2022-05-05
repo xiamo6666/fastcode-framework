@@ -14,11 +14,14 @@ allprojects {
     targetCompatibility = JavaVersion.VERSION_17
     sourceCompatibility = JavaVersion.VERSION_17
     repositories {
+        mavenLocal()
         maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
     }
     dependencies {
         api platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
-        implementation('net.logstash.logback:logstash-logback-encoder:7.1.1')
+        implementation 'net.logstash.logback:logstash-logback-encoder:7.1.1'
+        implementation 'io.swagger.core.v3:swagger-annotations:2.2.0'
+        implementation 'cn.hutool:hutool-all:5.8.0.M4'
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok:1.18.22'
     }
