@@ -16,6 +16,7 @@ allprojects {
     repositories {
         mavenLocal()
         maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+        mavenCentral()
     }
     dependencies {
         api platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
@@ -24,6 +25,8 @@ allprojects {
         implementation 'cn.hutool:hutool-all:5.8.0.M4'
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok:1.18.22'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     }
 
 }

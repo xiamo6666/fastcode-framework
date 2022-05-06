@@ -41,7 +41,7 @@ public class AuthFilter extends OncePerRequestFilter {
     /**
      * 允许授权url
      */
-    private final static Set<String> permissionUrls = Set.of("/login");
+    private final static Set<String> permissionUrls = Set.of("/login", "/manager/test");
 
 
     @Override

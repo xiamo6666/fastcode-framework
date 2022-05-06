@@ -3,6 +3,7 @@ plugins {
 }
 dependencies {
     api project(':fc-core')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 bootJar {
     mainClass.set('com.fc.system.SystemApplication')

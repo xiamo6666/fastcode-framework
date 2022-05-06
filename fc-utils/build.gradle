@@ -1,0 +1,10 @@
+dependencies {
+    implementation 'com.alibaba:easyexcel:3.0.5'
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.1'
+    implementation 'org.hibernate:hibernate-validator:7.0.4.Final'
+    implementation 'jakarta.el:jakarta.el-api:4.0.0'
+
+}
+test{
+    useJUnitPlatform()
+}

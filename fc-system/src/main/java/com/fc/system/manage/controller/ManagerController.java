@@ -4,9 +4,7 @@ import com.fc.common.model.LoginInfo;
 import com.fc.common.model.Result;
 import com.fc.core.filter.AuthFilter;
 import com.fc.core.utils.UserUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -20,12 +18,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/manager")
 public class ManagerController {
-
-    @GetMapping("/test")
-    public Result<String> test() {
-
-
-        System.out.println(UserUtils.getUserId());
-        return Result.success("test");
+    @PostMapping("/test")
+    public int test(@RequestBody Map<String, Object> params) {
+        System.out.println(params);
+        return 0;
     }
 }

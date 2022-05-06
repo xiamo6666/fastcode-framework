@@ -27,6 +27,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class JwtUtils {
 
+    /**
+     * 加密算法
+     */
     private final static Algorithm algorithm = Algorithm.HMAC256("abcd!@#$%^&*()dcba");
 
     /**
@@ -72,7 +75,6 @@ public class JwtUtils {
     /**
      * 解析token
      *
-     * @param verify
      * @param clazz
      * @param <T>
      * @return

@@ -1,6 +1,7 @@
 package com.fc.core.utils;
 
 import com.fc.common.model.LoginInfo;
+import com.fc.core.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 
@@ -46,7 +47,7 @@ public class UserUtils {
     private static LoginInfo getLoginInfo() {
         LoginInfo loginInfo = threadLocal.get();
         if (ObjectUtils.isEmpty(loginInfo)) {
-            throw new RuntimeException("登录失效,请重新登录");
+            throw new ServiceException("登录失效,请重新登录");
         }
         return loginInfo;
     }

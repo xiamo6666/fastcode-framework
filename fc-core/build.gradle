@@ -3,7 +3,7 @@ repositories {
 }
 dependencies {
     api project(":fc-api")
-    api 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.auth0:java-jwt:3.19.1'
 
 }

@@ -28,7 +28,6 @@ public class JwtUtilsTest {
         loginInfo.setOrgName("test");
         return JwtUtils.generateToken(loginInfo, 10);
     }
-
     public static void ver() {
 //        String token = "eyJraWQiOiJ0ZXN0IiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJvcmdOYW1lIjoidGVzdCIsImlzcyI6ImZhc3QtY29kZSIsImV4cCI6MTY1MTczMjE1NywidXNlcklkIjoidGVzdCIsImp0aSI6InRlc3QiLCJvcmdJZCI6InRlc3QiLCJ1c2VybmFtZSI6InRlc3QifQ.5rveldA25yioKp8sxnr7wfm2AflnJefX0M8FYrWz3WA";
         DecodedJWT decodedJWT = JwtUtils.verifyToken(generate());
