@@ -1,7 +1,9 @@
 package com.fc.utils.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import jakarta.validation.constraints.NotNull;
+
+import javax.validation.constraints.NotNull;
+
 
 /**
  * @ClassName: ExcelTestDto
@@ -13,11 +15,13 @@ import jakarta.validation.constraints.NotNull;
 
 public class ExcelTestDto {
     @ExcelProperty("name")
+    @NotNull(message = "名字不能为空")
     private String name;
     @ExcelProperty("age")
+    @NotNull(message = "年龄不能为空")
     private Integer age;
     @ExcelProperty("size")
-    @NotNull
+    @NotNull(message = "大小不能为空")
     private Integer size;
 
     public String getName() {

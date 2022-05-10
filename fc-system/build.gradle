@@ -4,6 +4,7 @@ plugins {
 dependencies {
     api project(':fc-core')
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 bootJar {
     mainClass.set('com.fc.system.SystemApplication')

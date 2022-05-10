@@ -1,12 +1,9 @@
 package com.fc.system.manage.controller;
 
-import com.fc.common.model.LoginInfo;
-import com.fc.common.model.Result;
-import com.fc.core.filter.AuthFilter;
-import com.fc.core.utils.UserUtils;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @ClassName: ManagerController
@@ -19,7 +16,7 @@ import java.util.Map;
 @RequestMapping("/manager")
 public class ManagerController {
     @PostMapping("/test")
-    public int test(@RequestBody Map<String, Object> params) {
+    public int test(@RequestBody LiveParamDto params) {
         System.out.println(params);
         return 0;
     }
