@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <springProperty scope="context" name="logbackLevel" source="logback.level"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) %green([%X{X-B3-TraceId:-}:%X{Deep:-},%X{X-B3-ParentSpanId:-},%X{X-B3-SpanId:-}]) %magenta(${PID:-}) %white(---) %-20(%yellow([%20.20thread])) %-55(%cyan(%.32logger{30}:%L)) %highlight(- %msg%n)"/>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>10.10.11.17:9000</destination>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"appname":"${springAppName}"}</customFields>
+        </encoder>
+    </appender>
+    <logger name="com.fc">
+        <level value="${logback.level}"/>
+    </logger>
+    <root level="warn">
+        <appender-ref ref="console"/>
+        <appender-ref ref="logstash"/>
+    </root>
+</configuration>

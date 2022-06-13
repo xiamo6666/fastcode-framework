@@ -1,0 +1,20 @@
+plugins {
+    id 'org.springframework.boot' version "${springBootVersion}"
+}
+dependencies {
+    api project(':fc-api')
+    api project(':fc-utils')
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer' //lb: 模型负载支持
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.1' //caffeine 高性能缓存
+    implementation "org.springdoc:springdoc-openapi-webflux-ui:${springdocVersion}"
+
+
+
+}
+bootJar {
+    mainClass.set('com.fc.gateway.GatewayApplication')
+}
+
+

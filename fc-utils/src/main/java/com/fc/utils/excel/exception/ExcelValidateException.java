@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ExcelValidateException extends RuntimeException {
 
-    private Map<Integer, String> params;
+    private final Map<Integer, String> params;
 
     public ExcelValidateException(Map<Integer, String> params) {
         super();

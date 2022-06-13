@@ -1,4 +1,21 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 10.10.11.17:8848
+        namespace: 'fc-code'
+  profiles:
+    active: local
+  application:
+    name: FC-SYSTEM
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.10.11.17:3306/ai_system?useSSL=false&rewriteBatchedStatements=true&characterEncoding=utf-8
+    username: root
+    password: root
 server:
-  port: 3333
-  tomcat:
-    basedir: /data/dir
+  port: 1001
+

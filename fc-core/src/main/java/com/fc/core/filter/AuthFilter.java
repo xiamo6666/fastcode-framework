@@ -1,20 +1,22 @@
 package com.fc.core.filter;
 
 import cn.hutool.http.ContentType;
-import com.auth0.jwt.impl.JWTParser;
+
+
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fc.core.common.GlobalConstant;
-import com.fc.core.utils.JwtUtils;
+import com.fc.common.model.GlobalConstant;
+import com.fc.common.model.LoginInfo;
+import com.fc.common.model.Result;
 import com.fc.core.utils.UserUtils;
+import com.fc.utils.jwt.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.fc.common.model.*;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -23,14 +25,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Set;
 
 /**
- * @ClassName: AuthFilter
- * @Description: dto
- * @Author: xwl
- * @Date: 2022/4/25 15:29
- * @Vsersion: 1.0
+ * @author xwl
+ * @version 1.0
+ * @since 2022/6/8 16:39
  */
 @Component
 @Slf4j
@@ -38,46 +37,40 @@ import java.util.Set;
 public class AuthFilter extends OncePerRequestFilter {
 
 
-    /**
-     * 允许授权url
-     */
-    private final static Set<String> permissionUrls = Set.of("/login", "/manager/test");
-
-
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (checkPermissionUrl(request) || checkLogin(request)) {
-            filterChain.doFilter(request, response);
-        } else {
-            responseData(response);
+    protected void doFilterInternal(@NotNull HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        try {
+            if (checkPermissionUrl(request) || injectUserInfo(request, response)) {
+                filterChain.doFilter(request, response);
+            } else {
+                responseData(response);
+            }
+        } finally {
+            UserUtils.removeLoginInfo();
         }
-        UserUtils.removeLoginInfo();
+
     }
 
 
-    /**
-     * 验证url是否需要授权
-     *
-     * @param request
-     * @return
-     */
     private static boolean checkPermissionUrl(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.debug("请求url:[{}]", requestURI);
-        return permissionUrls.contains(requestURI);
+        return GlobalConstant.PERMISSION_URL.contains(requestURI);
     }
 
+
     /**
-     * 验证用户是否登录
+     * 注入用户信息
      *
-     * @param request
+     * @param request request
      * @return
      */
-    private static boolean checkLogin(HttpServletRequest request) {
-        String token = getToken(request);
 
+
+    public boolean injectUserInfo(HttpServletRequest request, HttpServletResponse response) {
+        String token = getToken(request);
         if (!StringUtils.hasText(token)) {
-            return false;
+            return true;
         }
         try {
             //解析token
@@ -87,34 +80,35 @@ public class AuthFilter extends OncePerRequestFilter {
             //保存用户信息信息
             loginInfo.setToken(token);
             UserUtils.setLoginInfo(loginInfo);
+            return true;
         } catch (Exception e) {
-            log.debug(e.getMessage(), e);
+            log.warn(e.getMessage());
+            responseData(response);
             return false;
         }
-        return true;
+
     }
 
     /**
      * 从header中或者cookie中获取 token信息
      *
-     * @param request
-     * @return
+     * @param request request
+     * @return token
      */
     private static String getToken(HttpServletRequest request) {
-        String tokenValue = null;
+        //从header中获取token
+        String tokenValue = request.getHeader(GlobalConstant.PARAM_TOKEN);
 
         //解析cookies中的验证信息
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (GlobalConstant.PARAM_TOKEN.equalsIgnoreCase(cookie.getName())) {
-                    tokenValue = cookie.getValue();
+        if (!StringUtils.hasText(tokenValue)) {
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (GlobalConstant.PARAM_TOKEN.equalsIgnoreCase(cookie.getName())) {
+                        tokenValue = cookie.getValue();
+                    }
                 }
             }
-        }
-        //从header中获取token
-        if (!StringUtils.hasText(tokenValue)) {
-            tokenValue = request.getHeader(GlobalConstant.PARAM_TOKEN);
         }
         return tokenValue;
     }
@@ -122,7 +116,7 @@ public class AuthFilter extends OncePerRequestFilter {
     /**
      * 未验证信息输出
      *
-     * @param response
+     * @param response request
      */
     public void responseData(HttpServletResponse response) {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

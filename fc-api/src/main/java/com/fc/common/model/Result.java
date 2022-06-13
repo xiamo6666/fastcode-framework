@@ -1,27 +1,25 @@
 package com.fc.common.model;
 
 
+import com.fc.common.model.enums.CommonResultEnum;
+import com.fc.common.model.enums.IResultInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @ClassName: Result
- * @Description: 数据返回对象
- * @Author: xwl
- * @Date: 2022/5/5 15:41
- * @Vsersion: 1.0
+ * 全局r结果返回返回
+ *
+ * @author xwl
+ * @version 1.0
+ * @since 2022/6/8 9:26
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Result<T> {
-
-    public static final int CODE_SUCCESS = 0;
-    public static final String MESSAGE_SUCCESS = "success";
-
     private int code;
 
     private String message;
@@ -30,37 +28,46 @@ public class Result<T> {
 
     public static <T> Result<T> success(T data) {
         return Result.<T>builder()
-                .code(CODE_SUCCESS)
-                .message(MESSAGE_SUCCESS)
+                .code(CommonResultEnum.SUCCESS.getResultCode())
+                .message(CommonResultEnum.SUCCESS.getResultMessage())
                 .data(data)
                 .build();
     }
 
-    public static Result<String> success() {
-        return Result.<String>builder()
-                .code(0)
-                .message(MESSAGE_SUCCESS)
+    public static <T> Result<T> success() {
+        return Result.<T>builder()
+                .code(CommonResultEnum.SUCCESS.getResultCode())
+                .message(CommonResultEnum.SUCCESS.getResultMessage())
                 .build();
     }
 
-    public static Result<String> error() {
-        return Result.<String>builder()
-                .code(500)
-                .message("Internal Server Error")
-                .build();
-    }
 
-    public static Result<String> error(String message) {
-        return Result.<String>builder()
-                .code(500)
+    public static <T> Result<T> error(String message) {
+        return Result.<T>builder()
+                .code(CommonResultEnum.INTERNAL_SERVER_ERROR.getResultCode())
                 .message(message)
                 .build();
     }
 
-    public static Result<String> error(int code, String message) {
-        return Result.<String>builder()
+    public static <T> Result<T> error(IResultInfo iResultInfo) {
+        return Result.<T>builder()
+                .code(iResultInfo.getResultCode())
+                .message(iResultInfo.getResultMessage())
+                .build();
+    }
+
+    public static <T> Result<T> error(int code, String message) {
+        return Result.<T>builder()
                 .code(code)
                 .message(message)
+                .build();
+    }
+
+    public static <T> Result<T> error(IResultInfo iResultInfo, T data) {
+        return Result.<T>builder()
+                .code(iResultInfo.getResultCode())
+                .message(iResultInfo.getResultMessage())
+                .data(data)
                 .build();
     }
 

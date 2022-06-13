@@ -5,6 +5,7 @@ dependencies {
     api project(':fc-core')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
 }
 bootJar {
     mainClass.set('com.fc.system.SystemApplication')

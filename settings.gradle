@@ -1,4 +1,3 @@
 rootProject.name = 'fast-code-parent'
-include('fc-api', 'fc-core', 'fc-system')
-include 'fc-utils'
+include('fc-api', 'fc-core', 'fc-system','fc-utils','fc-gateway')
 

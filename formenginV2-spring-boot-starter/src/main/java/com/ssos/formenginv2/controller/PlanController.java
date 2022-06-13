@@ -5,7 +5,7 @@ import com.ssos.formenginv2.dto.PlanDto;
 import com.ssos.formenginv2.service.impl.PlanServiceImpl;
 import com.ssos.formenginv2.vo.PlanVo;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +25,13 @@ public class PlanController {
     @Autowired
     PlanServiceImpl planService;
 
-    @ApiOperation("计划查询")
+    @Operation("计划查询")
     @GetMapping("/find")
     public DataResult<List<PlanVo>> test() {
         return DataResult.ok(planService.select());
     }
 
-    @ApiOperation("tests" )
+    @Operation("tests" )
     @PostMapping("/add")
     public DataResult add(@RequestBody PlanDto dto) {
         planService.add(dto);

@@ -6,20 +6,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 
 /**
- * @ClassName: UserUtils
- * @Description: 获取用户信息
- * @Author: xwl
- * @Date: 2022/5/5 16:14
- * @Vsersion: 1.0
+ * @author xwl
+ * @version 1.0
+ * @since 2022/6/8 15:28
  */
 @Slf4j
 public class UserUtils {
     /**
      * 登录用户集合
      */
-    private final static ThreadLocal<LoginInfo> threadLocal = new ThreadLocal<>();
+    private final static ThreadLocal<LoginInfo> THREAD_LOCAL = new ThreadLocal<>();
 
-    public static String getUserId() {
+    public static Long getUserId() {
         return getLoginInfo().getUserId();
 
     }
@@ -28,8 +26,8 @@ public class UserUtils {
         return getLoginInfo().getUsername();
     }
 
-    public static String getOrgId() {
-        return getLoginInfo().getOrgId();
+    public static String getOrgCode() {
+        return getLoginInfo().getOrgCode();
     }
 
     public static String getOrgName() {
@@ -37,15 +35,15 @@ public class UserUtils {
     }
 
     public static void setLoginInfo(LoginInfo loginInfo) {
-        threadLocal.set(loginInfo);
+        THREAD_LOCAL.set(loginInfo);
     }
 
     public static void removeLoginInfo() {
-        threadLocal.remove();
+        THREAD_LOCAL.remove();
     }
 
     private static LoginInfo getLoginInfo() {
-        LoginInfo loginInfo = threadLocal.get();
+        LoginInfo loginInfo = THREAD_LOCAL.get();
         if (ObjectUtils.isEmpty(loginInfo)) {
             throw new ServiceException("登录失效,请重新登录");
         }

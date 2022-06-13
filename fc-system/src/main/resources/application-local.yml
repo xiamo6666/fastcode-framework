@@ -1,0 +1,6 @@
+logback:
+  level: debug
+springdoc:
+  api-docs:
+    enabled: true
+

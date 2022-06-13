@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.system.role.mapper.RoleMapper">
+
+    <select id="checkRoleUsedByRoleId" resultType="java.lang.Integer">
+        select count(id) from user_role where role_id = #{roleId}
+    </select>
+    <select id="selectPermissionsByRoleId" resultType="com.fc.system.permission.model.vo.PermissionVO">
+        select p.id, p.title, p.url, p.permission_type, p.parent_id, p.sort
+        from role_permission rp
+        inner join permission p on rp.permission_id = p.id
+        where role_id = #{roleId};
+    </select>
+
+    <select id="selectUsersByRoleId" resultType="com.fc.system.user.model.vo.UserVO">
+        select u.*
+        from user_role ur
+        inner join user u on ur.user_id = u.id
+        where role_id = #{roleId}
+    </select>
+
+    <select id="selectPermissionsByUserId" resultType="com.fc.system.permission.model.vo.PermissionVO">
+        select p.* from permission p
+        inner join role_permission rp on p.id = rp.permission_id
+        inner join user_role ur on rp.role_id = ur.role_id
+        where ur.user_id = #{userId}
+    </select>
+</mapper>

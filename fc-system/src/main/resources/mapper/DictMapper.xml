@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fc.system.dict.mapper.DictMapper">
+
+    <select id="getDictInfoCount" resultType="java.lang.Integer">
+        select count(*)
+        from dict_index di
+        left join dict_info di2 on di.dict_index_key = di2.dict_index_key
+        where di.id = #{dictIndexId}
+    </select>
+</mapper>

@@ -7,7 +7,7 @@ import com.ssos.formengine.vo.FormAllFieldVO;
 import com.ssos.formengine.vo.FormAllShowVO;
 import com.ssos.formengine.vo.FormOneShowVO;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,25 +25,25 @@ public class DefinitionTableController {
     @Autowired
     private AutoDefinitionService autoDefinitionService;
 
-    @ApiOperation("根据标识查找数据列表")
+    @Operation("根据标识查找数据列表")
     @GetMapping("/showTable")
     public DataResult<FormAllShowVO> showTable(@RequestParam String mark) {
         return DataResult.ok(autoDefinitionService.showtable(mark));
     }
 
-    @ApiOperation("查看数据详情")
+    @Operation("查看数据详情")
     @GetMapping("/showOneTable")
     public DataResult<FormOneShowVO> showOneTable(@RequestParam String tableName, @RequestParam Long id) {
         return DataResult.ok(autoDefinitionService.showOnetable(tableName, id));
     }
 
-    @ApiOperation("通过标识加载动态表")
+    @Operation("通过标识加载动态表")
     @GetMapping("/load")
     public DataResult<FormAllFieldVO> load(@RequestParam String mark) {
         return DataResult.ok(autoDefinitionService.loadField(mark));
     }
 
-    @ApiOperation(value = "添加数据",notes = "{\n" +
+    @Operation(value = "添加数据",notes = "{\n" +
             "  \"infos\": {\n" +
             "    \"name\": \"这是主表\",\n" +
             "    \"value\": [\n" +

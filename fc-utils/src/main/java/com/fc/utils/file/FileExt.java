@@ -10,6 +10,7 @@ package com.fc.utils.file;
 public interface FileExt {
     String EXCEL_XLS = ".xls";
     String EXCEL_XLSX = ".xlsx";
+
     String WORD_DOC = ".doc";
     String WORD_DOCX = ".docx";
 }

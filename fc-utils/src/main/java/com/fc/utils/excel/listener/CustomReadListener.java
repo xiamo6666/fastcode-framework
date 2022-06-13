@@ -80,16 +80,16 @@ public class CustomReadListener<T> implements ReadListener<T> {
      * @return
      */
     private boolean validate(T data) {
-        attempts.incrementAndGet();
-        Set<ConstraintViolation<T>> violationSet = ValidationUtil.validate(data, Default.class);
-        if (violationSet.isEmpty()) {
-            return true;
-        }
-        violationSet.forEach(ConstraintViolation::getMessage);
-        String message = violationSet.stream()
-                .map(ConstraintViolation::getMessage)
-                .collect(Collectors.joining(";"));
-        validateMessages.put(attempts.incrementAndGet(), message);
+//        attempts.incrementAndGet();
+//        Set<ConstraintViolation<T>> violationSet = ValidationUtil.validate(data, Default.class);
+//        if (violationSet.isEmpty()) {
+//            return true;
+//        }
+//        violationSet.forEach(ConstraintViolation::getMessage);
+//        String message = violationSet.stream()
+//                .map(ConstraintViolation::getMessage)
+//                .collect(Collectors.joining(";"));
+//        validateMessages.put(attempts.incrementAndGet(), message);
         return false;
     }
 }

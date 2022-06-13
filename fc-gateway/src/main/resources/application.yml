@@ -1,0 +1,31 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 10.10.11.17:8848
+        namespace: 'fc-code'
+    gateway:
+      #通过注册中心自动配置
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+  profiles:
+    active: local
+  application:
+    name: FC-GATEWAY
+server:
+  port: 1000
+  forward-headers-strategy: framework
+
+springdoc:
+  swagger-ui:
+    enabled: true  #开启swagger
+    use-root-path: true
+#    urls:
+#      - name: fc-system
+#        url: /fc-system/v3/api-docs/
+
+
