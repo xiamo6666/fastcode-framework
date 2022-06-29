@@ -2,6 +2,7 @@ package com.fc.system.permission.service;
 
 import com.fc.system.auto.entity.Permission;
 import com.fc.system.permission.model.dto.PermissionDTO;
+import com.fc.system.permission.model.dto.PermissionUpdateDTO;
 import com.fc.system.permission.model.vo.PermissionVO;
 
 import java.util.List;
@@ -41,6 +42,14 @@ public interface PermissionService {
      * @param permissionId 权限id
      */
     void deletePermission(Long permissionId);
+
+    /**
+     * 修改权限基本信息
+     *
+     * @param id                  permissionid
+     * @param permissionUpdateDTO 修改
+     */
+    void updatePermission(Long id, PermissionUpdateDTO permissionUpdateDTO);
 
 
 }

@@ -4,30 +4,29 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 /**
- * @ClassName: BaseConfig
- * @Description: dto
- * @Author: xwl
- * @Date: 2022/4/25 11:23
- * @Vsersion: 1.0
+ * @author xwl
+ * @version 1.0
+ * @since 2022/6/8 16:40
  */
 @Configuration
+@AllArgsConstructor
 public class BaseConfig {
-    @Autowired
-    private Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder;
+
+    private final Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder;
 
 
     /**
      * 在json序列化的时候，由于前端没有long类型，会导致long的精度丢失
      * long----》string
      *
-     * @return
+     * @return MappingJackson2HttpMessageConverter
      */
     @Bean
     public MappingJackson2HttpMessageConverter MappingJson2HttpMessageConverter() {
@@ -40,6 +39,5 @@ public class BaseConfig {
         mapper.registerModule(simpleModule);
         return new MappingJackson2HttpMessageConverter(mapper);
     }
-
 
 }

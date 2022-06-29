@@ -6,6 +6,7 @@ import com.fc.system.auto.entity.RolePermission;
 import com.fc.system.auto.service.PermissionAutoService;
 import com.fc.system.auto.service.RolePermissionAutoService;
 import com.fc.system.permission.model.dto.PermissionDTO;
+import com.fc.system.permission.model.dto.PermissionUpdateDTO;
 import com.fc.system.permission.model.vo.PermissionVO;
 import com.fc.system.permission.service.PermissionService;
 import com.fc.utils.recursion.RecursionUtils;
@@ -78,5 +79,13 @@ public class PermissionServiceImpl implements PermissionService {
             throw new ServiceException("该权限下存在子权限,禁止删除!!!");
         }
         permissionAutoService.removeById(permissionId);
+    }
+
+    @Override
+    public void updatePermission(Long id, PermissionUpdateDTO permissionUpdateDTO) {
+        Permission permission = new Permission();
+        BeanUtils.copyProperties(permissionUpdateDTO, permission);
+        permission.setId(id);
+        permissionAutoService.updateById(permission);
     }
 }

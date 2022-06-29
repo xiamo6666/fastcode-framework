@@ -1,6 +1,7 @@
 package com.fc.system.dict.model.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,12 +14,12 @@ import javax.validation.constraints.Size;
  */
 @Data
 public class DictIndexDTO {
-    @ApiModelProperty("字典索引名称")
+    @Schema(description ="字典索引名称")
     @NotBlank
     @Size(max = 20)
     private String dictIndexKey;
     @Size(max = 20)
-    @ApiModelProperty("字典索引值")
+    @Schema(description ="字典索引值")
     @NotBlank
     private String dictIndexValue;
 }

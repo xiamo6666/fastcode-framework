@@ -1,6 +1,7 @@
 package com.fc.system.org.model.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -14,21 +15,20 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 public class OrgDTO {
-    @ApiModelProperty("上级机构code")
+    @Schema(description ="上级机构code")
     @NotNull
     @Length(max = 20, message = "上级机构code超出长度限制")
     private String parentOrgCode;
 
-    @ApiModelProperty("机构code")
+    @Schema(description ="机构code")
     @NotBlank
     @Length(max = 5, message = "机构code超出长度限制")
     private String orgCode;
 
-    @ApiModelProperty("机构名称")
+    @Schema(description ="机构名称")
     @NotBlank
     @Length(max = 200, message = "机构名称超出长度限制")
     private String orgName;
-
 
     public String getOrgCode() {
         return parentOrgCode + orgCode;

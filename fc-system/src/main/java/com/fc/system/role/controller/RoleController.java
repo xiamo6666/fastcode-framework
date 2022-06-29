@@ -4,6 +4,8 @@ import com.fc.common.model.PageResult;
 import com.fc.common.model.Result;
 import com.fc.common.model.query.PageDTO;
 import com.fc.core.utils.PageResultUtils;
+import com.fc.core.validation.Insert;
+import com.fc.core.validation.Update;
 import com.fc.system.auto.entity.Role;
 import com.fc.system.permission.model.vo.PermissionVO;
 import com.fc.system.role.model.dto.RoleDTO;
@@ -34,7 +36,7 @@ public class RoleController {
 
     @PostMapping("/addRole")
     @Operation(summary = "添加角色")
-    public Result<String> addRole(@Validated @RequestBody RoleDTO roleDTO) {
+    public Result<String> addRole(@Validated(Insert.class) @RequestBody RoleDTO roleDTO) {
         roleService.addRole(roleDTO);
         return Result.success();
     }
@@ -48,7 +50,7 @@ public class RoleController {
 
     @PostMapping("/updateRoleById/{roleId}")
     @Operation(summary = "修改角色信息")
-    public Result<String> updateRoleById(@PathVariable Long roleId, @Validated RoleDTO roleDTO) {
+    public Result<String> updateRoleById(@PathVariable Long roleId,@RequestBody @Validated(Update.class) RoleDTO roleDTO) {
         roleService.updateRoleById(roleId, roleDTO);
         return Result.success();
     }

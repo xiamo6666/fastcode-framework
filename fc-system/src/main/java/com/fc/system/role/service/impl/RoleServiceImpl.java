@@ -67,10 +67,12 @@ public class RoleServiceImpl implements RoleService {
         if (roleMapper.checkRoleUsedByRoleId(roleId) > 0) {
             throw new ServiceException("该角色中有用户存在,不允许修改!!!");
         }
-        Role role = new Role();
-        BeanUtils.copyProperties(roleDTO, role);
-        role.setId(roleId);
-        roleAutoService.lambdaUpdate().update(role);
+
+        roleAutoService.lambdaUpdate()
+                .eq(Role::getId,roleId)
+                .eq(Role::getRemark,roleDTO.getRemark())
+                .eq(Role::getRoleName,roleDTO.getRoleName())
+                .update();
     }
 
     @Override
@@ -87,7 +89,6 @@ public class RoleServiceImpl implements RoleService {
         userRoleAutoService.remove(
                 Wrappers.<UserRole>lambdaQuery()
                         .eq(UserRole::getRoleId, roleId)
-                        .in(UserRole::getUserId, userIds)
         );
         List<UserRole> userRoles = userIds.stream()
                 .map(p -> {
@@ -109,7 +110,6 @@ public class RoleServiceImpl implements RoleService {
         rolePermissionAutoService.remove(
                 Wrappers.<RolePermission>lambdaQuery()
                         .eq(RolePermission::getRoleId, roleId)
-                        .in(RolePermission::getPermissionId, permissionIds)
         );
 
 
@@ -134,7 +134,9 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<PermissionVO> selectPermissionsByRoleId(Long roleId) {
         //递归变成树状结构
-        return RecursionUtils.recursionConvert(roleMapper.selectPermissionsByRoleId(roleId));
+        return RecursionUtils.recursionConvert(
+                roleMapper.selectPermissionsByRoleId(roleId)
+        );
     }
 
     @Override

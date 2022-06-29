@@ -4,7 +4,7 @@ package com.fc.core.exception;
 import com.fc.common.model.enums.CommonResultEnum;
 
 /**
- * @author xwl
+ * @author xwl0
  * @version 1.0
  * @since 2022/6/8 15:33
  */

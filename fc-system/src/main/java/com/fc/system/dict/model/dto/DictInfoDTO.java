@@ -1,7 +1,11 @@
 package com.fc.system.dict.model.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author xwl
@@ -10,13 +14,19 @@ import lombok.Data;
  */
 @Data
 public class DictInfoDTO {
-    @ApiModelProperty("字典索引名称")
+    @Schema(description = "字典索引名称")
+    @NotBlank
+    @Size(max = 20)
     private String dictIndexKey;
 
-    @ApiModelProperty("字典键")
+    @Schema(description = "字典键")
+    @NotBlank
+    @Size(max = 20)
     private String dictKey;
 
-    @ApiModelProperty("字典值")
+    @Schema(description = "字典值")
+    @NotBlank
+    @Size(max = 500)
     private String dictValue;
 
 }

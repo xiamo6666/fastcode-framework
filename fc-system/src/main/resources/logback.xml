@@ -13,7 +13,7 @@
         </encoder>
     </appender>
     <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>10.10.11.17:9000</destination>
+        <destination>10.10.11.17:8000</destination>
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"appname":"${springAppName}"}</customFields>
         </encoder>

@@ -1,6 +1,8 @@
 package com.fc.system.login.model.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -13,11 +15,11 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 public class LoginDTO {
-    @ApiModelProperty(value = "用户名")
+    @Schema(description = "用户名")
     @NotBlank
     @Length(max = 20, message = "用户长度超出限制")
     private String username;
-    @ApiModelProperty(value = "密码")
+    @Schema(description = "密码")
     @NotBlank
     private String password;
 }

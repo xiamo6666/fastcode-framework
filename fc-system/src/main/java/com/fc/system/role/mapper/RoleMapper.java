@@ -34,7 +34,7 @@ public interface RoleMapper {
      * @param roleId 角色id
      * @return 用户list
      */
-    List<UserVO> selectUsersByRoleId(@Param("role") Long roleId);
+    List<UserVO> selectUsersByRoleId(@Param("roleId") Long roleId);
 
 
     /**

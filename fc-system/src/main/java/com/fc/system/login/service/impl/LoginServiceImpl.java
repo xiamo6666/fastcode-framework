@@ -11,12 +11,16 @@ import com.fc.system.utils.MD5Utils;
 import com.fc.utils.jwt.JwtUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.server.Cookie;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.net.HttpCookie;
 import java.util.Objects;
 
 /**
@@ -52,7 +56,7 @@ public class LoginServiceImpl implements LoginService {
      * 生成token信息和cookie信息
      *
      * @param user user信息
-     * @return  token
+     * @return token
      */
     private String generateTokenAndCookie(User user) {
         if (user == null) {
@@ -64,12 +68,14 @@ public class LoginServiceImpl implements LoginService {
         String token = JwtUtils.generateToken(loginInfo, GlobalConstant.TOKEN_EXPIRES_TIME);
         HttpServletResponse httpServletResponse = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
         //生成cookie信息
-        Cookie cookie = new Cookie(GlobalConstant.PARAM_TOKEN, token);
-        cookie.setPath("/");
-        cookie.setMaxAge(GlobalConstant.TOKEN_EXPIRES_TIME * 24 * 60 * 60);
-        if (httpServletResponse != null) {
-            httpServletResponse.addCookie(cookie);
-        }
+        ResponseCookie cookie = ResponseCookie.from(GlobalConstant.PARAM_TOKEN, token)
+                .path("/")
+                .httpOnly(false)
+//                .secure(true)
+                .maxAge(GlobalConstant.TOKEN_EXPIRES_TIME * 24 * 60 * 60)
+//                .sameSite("None")
+                .build();
+        httpServletResponse.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         return token;
     }
 }

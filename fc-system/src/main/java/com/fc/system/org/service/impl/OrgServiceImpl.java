@@ -1,16 +1,26 @@
 package com.fc.system.org.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fc.common.model.query.PageDTO;
 import com.fc.core.exception.ServiceException;
 import com.fc.core.utils.PageDtoUtils;
+import com.fc.core.utils.UserUtils;
 import com.fc.system.auto.entity.Org;
 import com.fc.system.auto.service.OrgAutoService;
+import com.fc.system.org.mapper.OrgMapper;
 import com.fc.system.org.model.dto.OrgDTO;
+import com.fc.system.org.model.vo.OrgVO;
 import com.fc.system.org.service.OrgService;
+import com.fc.utils.recursion.RecursionModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author xwl
@@ -21,6 +31,9 @@ import org.springframework.stereotype.Service;
 public class OrgServiceImpl implements OrgService {
     @Autowired
     private OrgAutoService orgAutoService;
+
+    @Autowired
+    private OrgMapper orgMapper;
 
     @Override
     public IPage<Org> pageOrgList(PageDTO pageDto) {
@@ -66,4 +79,28 @@ public class OrgServiceImpl implements OrgService {
                 .eq(Org::getOrgCode, orgCode)
                 .update();
     }
+
+    @Override
+    public OrgVO getOrgTree() {
+        List<OrgVO> orgTree = orgMapper.getOrgTree(UserUtils.getOrgCode());
+        //sql递归处理 第一条数据是最上级数据
+        if (CollectionUtil.isEmpty(orgTree)) {
+            return null;
+        }
+        OrgVO orgVO = orgTree.get(0);
+        orgTree.forEach(orgTrees ->
+                orgVO.setChildren(
+                        recursion(orgVO, orgTree)
+                )
+        );
+        return orgVO;
+    }
+
+    private static List<OrgVO> recursion(OrgVO orgVO, List<OrgVO> list) {
+        return list.stream()
+                .filter(p -> p.getParentOrgCode().equals(orgVO.getOrgCode()))
+                .peek(p -> p.setChildren(recursion(p, list)))
+                .collect(Collectors.toList());
+    }
+
 }

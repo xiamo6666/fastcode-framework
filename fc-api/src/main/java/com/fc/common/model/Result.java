@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 全局r结果返回返回
+ * 全局结果返回返回
  *
  * @author xwl
  * @version 1.0

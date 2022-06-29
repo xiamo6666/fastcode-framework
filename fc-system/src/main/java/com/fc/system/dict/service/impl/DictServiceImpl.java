@@ -1,6 +1,7 @@
 package com.fc.system.dict.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.fc.common.model.GlobalConstant;
 import com.fc.common.model.query.PageDTO;
 import com.fc.core.exception.ServiceException;
 import com.fc.core.utils.PageDtoUtils;
@@ -14,10 +15,15 @@ import com.fc.system.dict.model.dto.DictInfoDTO;
 import com.fc.system.dict.service.DictService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author xwl
@@ -30,14 +36,19 @@ public class DictServiceImpl implements DictService {
     private DictIndexAutoService dictIndexAutoService;
     @Autowired
     private DictInfoAutoService dictInfoAutoService;
-    @Autowired
+    @Resource
     private DictMapper dictMapper;
+
+    @Autowired
+    @Qualifier("objectRedisTemplate")
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public void addDictIndex(DictIndexDTO dictIndexDto) {
         DictIndex dictIndex = new DictIndex();
         BeanUtils.copyProperties(dictIndexDto, dictIndex);
         dictIndexAutoService.save(dictIndex);
+        updateDictCache();
 
     }
 
@@ -52,12 +63,13 @@ public class DictServiceImpl implements DictService {
         DictInfo dictInfo = new DictInfo();
         BeanUtils.copyProperties(dictInfoDto, dictInfo);
         dictInfoAutoService.save(dictInfo);
+        updateDictCache();
     }
 
     @Override
-    public List<DictInfo> getDictInfoList(String dictIndexKey) {
+    public List<DictInfo> getDictInfoList(List<String> dictIndexKeys) {
         return dictInfoAutoService.lambdaQuery()
-                .eq(DictInfo::getDictIndexKey, dictIndexKey)
+                .in(DictInfo::getDictIndexKey, dictIndexKeys)
                 .list();
     }
 
@@ -77,6 +89,7 @@ public class DictServiceImpl implements DictService {
     @Override
     public void deleteDictInfo(Long dictInfoId) {
         dictInfoAutoService.removeById(dictInfoId);
+        updateDictCache();
 
     }
 
@@ -86,6 +99,22 @@ public class DictServiceImpl implements DictService {
             throw new ServiceException("该字典索引下具有字典值,不允许删除");
         }
         dictIndexAutoService.removeById(dictIndexId);
+        updateDictCache();
+
+    }
+
+    private void updateDictCache() {
+        //删除缓存
+        redisTemplate.delete(GlobalConstant.DICT_CACHE_KEY);
+        //从数据库获取最新数据
+        List<DictInfo> dictInfos = dictInfoAutoService.list();
+        Map<String, Map<String, String>> dictMaps = dictInfos.stream()
+                .collect(Collectors.groupingBy(DictInfo::getDictIndexKey,
+                        Collectors.toMap(DictInfo::getDictKey, DictInfo::getDictValue)));
+
+        //从新放入Redis缓存
+        redisTemplate.opsForHash().putAll(GlobalConstant.DICT_CACHE_KEY, dictMaps);
+
 
     }
 }

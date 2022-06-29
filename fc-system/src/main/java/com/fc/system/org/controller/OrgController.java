@@ -6,6 +6,7 @@ import com.fc.common.model.query.PageDTO;
 import com.fc.core.utils.PageResultUtils;
 import com.fc.system.auto.entity.Org;
 import com.fc.system.org.model.dto.OrgDTO;
+import com.fc.system.org.model.vo.OrgVO;
 import com.fc.system.org.service.OrgService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,24 +29,29 @@ public class OrgController {
 
 
     @GetMapping("/pageOrg")
-    @Operation(summary ="分页组织机构")
+    @Operation(summary = "分页组织机构")
     public Result<PageResult<Org>> pageOrg(PageDTO dto) {
         return Result.success(PageResultUtils.convert(orgService.pageOrgList(dto)));
     }
 
     @PostMapping("/addOrg")
-    @Operation(summary ="添加组织机构")
+    @Operation(summary = "添加组织机构")
     public Result<String> addOrg(@RequestBody @Valid OrgDTO dto) {
         orgService.addOrg(dto);
         return Result.success();
     }
 
-    @PostMapping("/deleteOrg")
-    @Operation(summary ="刪除组织机构")
+    @PostMapping("/deleteOrg/{orgId}")
+    @Operation(summary = "刪除组织机构")
     public Result<String> deleteOrg(@PathVariable Long orgId) {
         orgService.deleteOrg(orgId);
         return Result.success();
+    }
 
+    @GetMapping("/getOrgTree")
+    @Operation(summary = "获取组织机构树形结构")
+    public Result<OrgVO> getOrgTree() {
+        return Result.success(orgService.getOrgTree());
     }
 
 

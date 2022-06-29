@@ -46,5 +46,10 @@ public interface GlobalConstant {
      */
     long TOKEN_REFRESH_TIME = 30;
 
+    /**
+     * 字典值缓存前缀
+     */
+    String DICT_CACHE_KEY = "dict";
+
 
 }

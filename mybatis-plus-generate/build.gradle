@@ -1,0 +1,12 @@
+dependencies {
+    // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-generator
+    implementation 'com.baomidou:mybatis-plus-generator:3.5.2'
+    implementation 'com.baomidou:mybatis-plus-extension:3.5.2'
+    implementation 'org.apache.velocity:velocity-engine-core:2.3'
+    implementation 'mysql:mysql-connector-java:8.0.29'
+
+}
+
+test{
+    useJUnitPlatform()
+}

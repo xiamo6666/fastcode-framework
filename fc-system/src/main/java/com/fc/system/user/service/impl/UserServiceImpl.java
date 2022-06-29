@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private OrgAutoService orgAutoService;
     @Autowired
-    private RoleService roleService;
 
+    private RoleService roleService;
     @Autowired
     private OrgService orgService;
 
@@ -127,6 +127,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long userId) {
+        //判断删除对象是否为登入对象
+        if (UserUtils.getUserId().equals(userId)) {
+            throw new ServiceException("不允许删除自己");
+        }
+
         //删除用户信息
         userAutoService.removeById(userId);
         //删除用户基本信息 TODO

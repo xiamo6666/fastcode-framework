@@ -1,7 +1,8 @@
 package com.fc.system.permission.model.vo;
 
 import com.fc.utils.recursion.RecursionModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,16 +18,16 @@ import lombok.ToString;
 public class PermissionVO extends RecursionModel<Long,PermissionVO> {
 
 
-    @ApiModelProperty("标题")
+    @Schema(description ="标题")
     private String title;
 
-    @ApiModelProperty("权限地址")
+    @Schema(description ="权限地址")
     private String url;
 
-    @ApiModelProperty("0-菜单;1-按钮;2-api接口")
+    @Schema(description ="0-菜单;1-按钮;2-api接口")
     private Integer permissionType;
 
-    @ApiModelProperty("备注")
+    @Schema(description ="备注")
     private String remark;
 
 

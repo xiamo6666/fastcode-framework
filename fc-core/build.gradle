@@ -6,9 +6,8 @@ dependencies {
     api project(":fc-utils")
     implementation 'org.springframework.boot:spring-boot-starter-web'
     api 'com.baomidou:mybatis-plus-boot-starter:3.5.2'
+    api 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'mysql:mysql-connector-java:8.0.29'
-
-
 
 
 }

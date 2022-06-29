@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fc.common.model.query.PageDTO;
 import com.fc.system.auto.entity.Org;
 import com.fc.system.org.model.dto.OrgDTO;
+import com.fc.system.org.model.vo.OrgVO;
+
+import java.util.List;
 
 /**
  * @author xwl
@@ -39,6 +42,13 @@ public interface OrgService {
      * @param orgCode orgCode
      */
     void enableOrg(String orgCode);
+
+    /**
+     * 获取组织机构结构树
+     *
+     * @return   List<OrgVO>
+     */
+    OrgVO getOrgTree();
 
 
 }

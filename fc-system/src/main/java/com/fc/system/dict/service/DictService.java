@@ -43,7 +43,7 @@ public interface DictService {
      * @param dictIndexKey 字典索引key
      * @return 字典值列表
      */
-    List<DictInfo> getDictInfoList(String dictIndexKey);
+    List<DictInfo> getDictInfoList(List<String> dictIndexKey);
 
     /**
      * 获取字典值

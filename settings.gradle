@@ -1,3 +1,4 @@
 rootProject.name = 'fast-code-parent'
 include('fc-api', 'fc-core', 'fc-system','fc-utils','fc-gateway')
+include 'mybatis-plus-generate'
 
